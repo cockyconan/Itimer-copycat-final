@@ -89,6 +89,15 @@
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginStart="192dp"
+                android:layout_marginLeft="192dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/create_timer_edittext_note" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
             <RelativeLayout
@@ -96,12 +105,15 @@
                 android:layout_width="410dp"
                 android:layout_height="104dp"
                 android:layout_marginTop="1dp"
+                android:background="@drawable/create_timer_click_effect"
                 android:clickable="true"
-                android:longClickable="true"
+
+                android:longClickable="false"
                 android:onClick="onClick"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
 
                 <ImageView
                     android:id="@+id/imageView2"
@@ -119,27 +131,41 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="242dp"
-                    android:layout_marginRight="242dp"
-                    android:layout_marginBottom="78dp"
+                    android:layout_marginStart="98dp"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginBottom="70dp"
                     android:text="Date and Time"
                     android:textColor="#FF9800"
                     app:fontFamily="casual" />
 
                 <TextView
-                    android:id="@+id/create_timer_datetimelayout_showtime"
+                    android:id="@+id/create_timer_datetimelayout_showdate"
                     android:layout_width="317dp"
-                    android:layout_height="39dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="9dp"
-                    android:layout_marginRight="9dp"
-                    android:layout_marginBottom="25dp"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginBottom="47dp"
                     android:text="long tap to activate relative time calculator"
+                    android:textColor="#03A9F4"
+                    app:fontFamily="casual" />
+
+                <TextView
+                    android:id="@+id/create_timer_datetimelayout_showtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/create_timer_datetimelayout_showdate"
+                    android:layout_alignLeft="@+id/create_timer_datetimelayout_showdate"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="-1dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="short tap to set time"
                     android:textColor="#03A9F4"
                     app:fontFamily="casual" />
             </RelativeLayout>
@@ -149,6 +175,7 @@
                 android:layout_width="410dp"
                 android:layout_height="104dp"
                 android:clickable="true"
+                android:background="@drawable/create_timer_click_effect"
                 android:longClickable="true"
                 android:onClick="onClick"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -177,12 +204,12 @@
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="225dp"
-                    android:layout_marginRight="225dp"
-                    android:layout_marginBottom="71dp"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginBottom="70dp"
                     android:text="Repeat Setting"
                     android:textColor="#FF9800"
                     app:fontFamily="casual" />
@@ -194,9 +221,9 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginStart="90dp"
-                    android:layout_marginLeft="90dp"
-                    android:layout_marginBottom="33dp"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginBottom="30dp"
                     android:text="there are no settings"
                     android:textColor="#03A9F4"
                     app:fontFamily="casual" />
@@ -206,6 +233,7 @@
                 android:id="@+id/create_timer_addpicture_layout"
                 android:layout_width="410dp"
                 android:layout_height="103dp"
+                android:background="@drawable/create_timer_click_effect"
                 android:clickable="true"
                 android:longClickable="true"
                 android:onClick="onClick"
@@ -234,12 +262,12 @@
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="264dp"
-                    android:layout_marginRight="264dp"
-                    android:layout_marginBottom="69dp"
+                    android:layout_marginStart="101dp"
+                    android:layout_marginLeft="101dp"
+                    android:layout_marginBottom="70dp"
                     android:text="Add Pics"
                     android:textColor="#FF9800"
                     app:fontFamily="casual" />
@@ -251,93 +279,39 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginStart="92dp"
-                    android:layout_marginLeft="92dp"
-                    android:layout_marginBottom="33dp"
+                    android:layout_marginStart="101dp"
+                    android:layout_marginLeft="101dp"
+                    android:layout_marginBottom="30dp"
                     android:text="choose a fit picture for the event"
                     android:textColor="#03A9F4"
                     app:fontFamily="casual" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/create_timer_addtag_layout"
-                android:layout_width="410dp"
-                android:layout_height="103dp"
-                android:clickable="true"
-                android:longClickable="true"
+            <Button
+                android:id="@+id/create_timer_save_button"
+                android:layout_width="204dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="40dp"
+                android:background="#85EE0C"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:onClick="onClick"
+                android:text="save"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/create_timer_addpicture_layout" />
+
+            <Button
+                android:id="@+id/create_timer_cancel_button"
+                android:layout_width="204dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="40dp"
+                android:background="#F10505"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:onClick="onClick"
+                android:text="cancel"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/create_timer_addpicture_layout">
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="77dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginBottom="0dp"
-                    app:srcCompat="@android:drawable/btn_star" />
-
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="284dp"
-                    android:layout_marginRight="284dp"
-                    android:layout_marginBottom="62dp"
-                    android:text="Tag it"
-                    android:textColor="#FF9800"
-                    app:fontFamily="casual" />
-
-                <TextView
-                    android:id="@+id/create_timer_tagshow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="89dp"
-                    android:layout_marginLeft="89dp"
-                    android:layout_marginBottom="28dp"
-                    android:text="tap to tag"
-                    android:textColor="#03A9F4"
-                    app:fontFamily="casual" />
-            </RelativeLayout>
-
-        <Button
-            android:id="@+id/create_timer_save_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="72dp"
-            android:layout_marginRight="72dp"
-            android:background="#85EE0C"
-            android:text="save"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/create_timer_addtag_layout" />
-
-        <Button
-            android:id="@+id/create_timer_cancel_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="72dp"
-            android:layout_marginLeft="72dp"
-            android:layout_marginTop="16dp"
-            android:background="#F10505"
-            android:text="cancel"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/create_timer_addtag_layout" />
+                app:layout_constraintTop_toBottomOf="@+id/create_timer_addpicture_layout" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>>
 </androidx.constraintlayout.widget.ConstraintLayout>
