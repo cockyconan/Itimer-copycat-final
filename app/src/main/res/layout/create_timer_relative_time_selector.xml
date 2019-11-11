@@ -127,7 +127,7 @@
             android:textSize="30sp" />
 
         <TextView
-            android:id="@+id/create_timer_selectrelativedate_thedate"
+            android:id="@+id/create_timer_selectrelativedate_therelativedate"
             android:layout_width="274dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

@@ -5,6 +5,7 @@
     android:id="@+id/create_timer_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".CreateTimer">
 
     <ScrollView
@@ -19,86 +20,115 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="444dp"
-            android:layout_height="wrap_content"
-            android:background="#03A9F4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent">
 
-            <EditText
-                android:id="@+id/create_timer_edittext_title"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="444dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="56dp"
-                android:layout_marginLeft="56dp"
-                android:layout_marginTop="76dp"
-                android:ems="16"
-                android:gravity="start|top"
-                android:hint="birthday,anniversary,holiday~~~"
-                android:inputType="textMultiLine"
-                android:textColor="#FF5722"
-                android:textSize="18sp"
+                android:background="#03A9F4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="52dp"
-                android:layout_marginLeft="52dp"
-                android:layout_marginTop="36dp"
-                android:text="Title:"
-                android:textColor="#FFEB3B"
-                android:textSize="24sp"
-                app:fontFamily="casual"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <EditText
+                    android:id="@+id/create_timer_edittext_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="56dp"
+                    android:layout_marginLeft="56dp"
+                    android:layout_marginTop="76dp"
+                    android:ems="16"
+                    android:gravity="start|top"
+                    android:hint="birthday,anniversary,holiday~~~"
+                    android:inputType="textMultiLine"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#FFFFFF"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="52dp"
-                android:layout_marginLeft="52dp"
-                android:layout_marginTop="15dp"
-                android:text="Note:"
-                android:textColor="#FFEB3B"
-                android:textSize="24sp"
-                app:fontFamily="casual"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/create_timer_edittext_title" />
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="52dp"
+                    android:layout_marginLeft="52dp"
+                    android:layout_marginTop="36dp"
+                    android:text="Title:"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    app:fontFamily="casual"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/create_timer_edittext_note"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="56dp"
-                android:layout_marginLeft="56dp"
-                android:ems="16"
-                android:gravity="start|top"
-                android:hint="thing wanna say,a goal,a motto~~~"
-                android:inputType="textMultiLine"
-                android:textColor="#FF5722"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="52dp"
+                    android:layout_marginLeft="52dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Note:"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    app:fontFamily="casual"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/create_timer_edittext_title" />
 
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginStart="192dp"
-                android:layout_marginLeft="192dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/create_timer_edittext_note" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <EditText
+                    android:id="@+id/create_timer_edittext_note"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="56dp"
+                    android:layout_marginLeft="56dp"
+                    android:ems="16"
+                    android:gravity="start|top"
+                    android:hint="thing wanna say,a goal,a motto~~~"
+                    android:inputType="textMultiLine"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#FFFFFF"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="192dp"
+                    android:layout_marginLeft="192dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/create_timer_edittext_note" />
+
+                <Button
+                    android:id="@+id/create_timer_save_button"
+                    android:layout_width="62dp"
+                    android:layout_height="57dp"
+                    android:layout_marginStart="348dp"
+                    android:layout_marginLeft="348dp"
+                    android:background="@drawable/create_timer_click_effect"
+                    android:foreground="@android:drawable/ic_menu_add"
+                    android:onClick="onClick"
+                    android:outlineAmbientShadowColor="@color/colorAccent"
+                    android:outlineSpotShadowColor="@android:color/holo_blue_bright"
+                    android:shadowColor="@color/colorAccent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/create_timer_cancel_button"
+                    android:layout_width="62dp"
+                    android:layout_height="57dp"
+                    android:layout_marginStart="276dp"
+                    android:layout_marginLeft="276dp"
+                    android:background="@drawable/create_timer_click_effect"
+                    android:foreground="@android:drawable/ic_menu_close_clear_cancel"
+                    android:onClick="onClick"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <RelativeLayout
                 android:id="@+id/create_timer_date_time_layout"
@@ -174,8 +204,8 @@
                 android:id="@+id/create_timer_repeat_layout"
                 android:layout_width="410dp"
                 android:layout_height="104dp"
-                android:clickable="true"
                 android:background="@drawable/create_timer_click_effect"
+                android:clickable="true"
                 android:longClickable="true"
                 android:onClick="onClick"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -286,7 +316,7 @@
                     android:textColor="#03A9F4"
                     app:fontFamily="casual" />
             </RelativeLayout>
-
+            <!--
             <Button
                 android:id="@+id/create_timer_save_button"
                 android:layout_width="204dp"
@@ -312,6 +342,8 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/create_timer_addpicture_layout" />
+                -->
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>>
+    </ScrollView>
+    >
 </androidx.constraintlayout.widget.ConstraintLayout>

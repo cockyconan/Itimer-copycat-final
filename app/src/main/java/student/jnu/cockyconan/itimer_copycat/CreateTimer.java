@@ -22,6 +22,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.time.Year;
 import java.util.Locale;
 
 import static android.widget.Toast.LENGTH_SHORT;
@@ -34,9 +35,11 @@ public class CreateTimer extends AppCompatActivity {
     private Button cancelBtn;
     private TextView shortclicktxtDate;
     private TextView longclicktxtDate;
-    private MyDialog mMyDialog;
+    public static MyDialog mMyDialog;
     private DateFormat format= DateFormat.getDateTimeInstance();
     private Calendar calendar= Calendar.getInstance(Locale.CHINA);
+    public static Calendar RELATIVEcalendar= Calendar.getInstance(Locale.CHINA);//用于保存相对时间计算器中作为基准的日期
+
     private View setloop_view;
     private View selectrelativetime_view;
     @Override
@@ -62,9 +65,10 @@ public class CreateTimer extends AppCompatActivity {
                 mMyDialog  = new MyDialog( view.getContext(), 0, 0, selectrelativetime_view, R.style.DialogTheme);
                 mMyDialog.setCancelable(true);
                 mMyDialog.show();
-                longclicktxtDate=(TextView) selectrelativetime_view.findViewById(R.id.create_timer_selectrelativedate_thedate);
+                longclicktxtDate=(TextView) selectrelativetime_view.findViewById(R.id.create_timer_selectrelativedate_therelativedate);
                 Calendar calendar=Calendar.getInstance();
-                longclicktxtDate.setText(calendar.get(Calendar.YEAR)+" - " +calendar.get(Calendar.MONTH)+" - "+calendar.get(Calendar.DAY_OF_MONTH) );
+                int month=calendar.get(Calendar.MONTH)+1;
+                longclicktxtDate.setText(calendar.get(Calendar.YEAR)+" - " +month+" - "+calendar.get(Calendar.DAY_OF_MONTH) );
                 return true;//return true不响应短按事件
             }
 
@@ -92,7 +96,11 @@ public class CreateTimer extends AppCompatActivity {
         switch (which_is_clicked.getId())
         {
             case R.id.create_timer_addpicture_layout: {
-
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_PICK);
+// 设置文件类型
+                intent.setType("image/*");
+                startActivityForResult(intent, 11);
                 Toast.makeText(this, "添加图片", LENGTH_SHORT).show();
                 break;
             }
@@ -168,29 +176,65 @@ public class CreateTimer extends AppCompatActivity {
 
             }
             //相对时间窗口修改基准时间点击
-            case R.id.create_timer_selectrelativedate_thedate:
+            case R.id.create_timer_selectrelativedate_therelativedate:
             {
 
-
                 //因为此处相对时间选择的视图还没有渲染，所以不能获取那个文本空间，这里设置为1，是为了里面区分：
-               // longclicktxtDate.setId(R.id.create_timer_selectrelativedate_thedate);
-                //problem
+
                 showDatePickerDialog(this,  3, longclicktxtDate, calendar);
                 break;
             }
             //相对时间窗口几天之后选择
             case R.id.create_timer_selectrelativetime_daysafter_button:
             {
+                EditText edtxtafter=(EditText)selectrelativetime_view.findViewById(R.id.create_timer_relativetimeselector_daysafter);
+
+                if(TextUtils.isEmpty(edtxtafter.getText()))
+                {
+                    Toast.makeText(this, "the value of the days after can't be empty !", LENGTH_SHORT).show();
+                    break;
+                }
+                else {
+                    int adddays=Integer.parseInt(edtxtafter.getText().toString());
+                    RELATIVEcalendar.add(Calendar.DATE,adddays);//作添加相对日子
+                    TextView date_show=(TextView)findViewById(R.id.create_timer_datetimelayout_showdate);
+                    int monthtmp=RELATIVEcalendar.get(Calendar.MONTH)+1;
+                    date_show.setText("DATE:  " + RELATIVEcalendar.get(Calendar.YEAR) + " - " + monthtmp + " - " + RELATIVEcalendar.get(Calendar.DAY_OF_MONTH) + " ~~~");
+                    RELATIVEcalendar= Calendar.getInstance(Locale.CHINA);//static的修复
+                    final TextView txtTime = (TextView) findViewById(R.id.create_timer_datetimelayout_showtime);
+                    showTimePickerDialog(this, 3, txtTime, calendar);
+
+                }
                 break;
             }
             //相对时间窗口几天之前选择
             case R.id.create_timer_selectrelativetime_daysbefore_button:
             {
+                EditText edtxtafter=(EditText)selectrelativetime_view.findViewById(R.id.create_timer_RTS_daysbefore);
+
+                if(TextUtils.isEmpty(edtxtafter.getText()))
+                {
+                    Toast.makeText(this, "the value of the days before can't be empty !", LENGTH_SHORT).show();
+                    break;
+                }
+                else {
+                    int adddays=-Integer.parseInt(edtxtafter.getText().toString());
+                    RELATIVEcalendar.add(Calendar.DATE,adddays);//作添加相对日子
+                    TextView date_show=(TextView)findViewById(R.id.create_timer_datetimelayout_showdate);
+                    int monthtmp=RELATIVEcalendar.get(Calendar.MONTH)+1;
+                    date_show.setText("DATE:  " + RELATIVEcalendar.get(Calendar.YEAR) + " - " + monthtmp + " - " + RELATIVEcalendar.get(Calendar.DAY_OF_MONTH) + " ~~~");
+                    RELATIVEcalendar= Calendar.getInstance(Locale.CHINA);//static的修复
+
+                    final TextView txtTime = (TextView) findViewById(R.id.create_timer_datetimelayout_showtime);
+                    showTimePickerDialog(this, 3, txtTime, calendar);
+
+                }
                 break;
             }
             //相对时间窗口取消按钮，其实不必要。
             case R.id.create_timer_selectrelativetime_cancelbutton:
             {
+                mMyDialog.dismiss();
                 break;
             }
 
@@ -214,7 +258,7 @@ public class CreateTimer extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         // 此处得到选择的时间，可以进行你想要的操作
-                        tv.setText("You choose：#Year " + year + " #Month " + (monthOfYear + 1) + " #Day " + dayOfMonth + " ~~~");
+                        tv.setText("DATE:  " + year + " - " + (monthOfYear + 1) + " - " + dayOfMonth + " ~~~");
                         final TextView txtTime=(TextView)activity.findViewById(R.id.create_timer_datetimelayout_showtime);
                         showTimePickerDialog(activity,  0, txtTime, calendar);
                     }
@@ -225,7 +269,7 @@ public class CreateTimer extends AppCompatActivity {
                         , calendar.get(Calendar.DAY_OF_MONTH)).show();
                 break;
             }
-            case R.id.create_timer_selectrelativedate_thedate:
+            case R.id.create_timer_selectrelativedate_therelativedate:
             {
 
                 new DatePickerDialog(activity, themeResId, new DatePickerDialog.OnDateSetListener() {
@@ -235,6 +279,7 @@ public class CreateTimer extends AppCompatActivity {
                         // 此处得到选择的时间，可以进行你想要的操作
 
                         tv.setText(  ""+year + " - " + (monthOfYear + 1) + " - " + dayOfMonth + "");
+                        RELATIVEcalendar.set(year,monthOfYear+1,dayOfMonth);
 
                     }
                 }
@@ -267,13 +312,13 @@ public class CreateTimer extends AppCompatActivity {
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        tv.setText("You choose: #Hour " + hourOfDay + " #Minute " + minute  + " ~~~");
-
+                        tv.setText("TIME:  " + hourOfDay + " : " + minute  + " ~~~");
+                        mMyDialog.dismiss();
                     }
                 }
                 // 设置初始时间
-                , calendar.get(Calendar.HOUR_OF_DAY)
-                , calendar.get(Calendar.MINUTE)
+                , calendar.get(Calendar.ZONE_OFFSET)
+                , calendar.get(Calendar.ZONE_OFFSET)
                 // true表示采用24小时制
                 ,true).show();
     }
