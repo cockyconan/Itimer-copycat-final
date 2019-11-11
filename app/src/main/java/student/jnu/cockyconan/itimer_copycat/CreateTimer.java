@@ -32,16 +32,19 @@ public class CreateTimer extends AppCompatActivity {
     private EditText note;
     private Button saveBtn;
     private Button cancelBtn;
-    private TextView txtDate ;
+    private TextView shortclicktxtDate;
+    private TextView longclicktxtDate;
     private MyDialog mMyDialog;
     private DateFormat format= DateFormat.getDateTimeInstance();
     private Calendar calendar= Calendar.getInstance(Locale.CHINA);
     private View setloop_view;
+    private View selectrelativetime_view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_timer);
-        txtDate=(TextView)findViewById(R.id.create_timer_datetimelayout_showdate);
+        shortclicktxtDate =(TextView)findViewById(R.id.create_timer_datetimelayout_showdate);
+
         saveBtn = (Button) findViewById(R.id.create_timer_save_button);
         cancelBtn =(Button) findViewById(R.id.create_timer_cancel_button);
 
@@ -55,15 +58,23 @@ public class CreateTimer extends AppCompatActivity {
             @Override
             public boolean onLongClick(View view) {
 
-                Toast.makeText(view.getContext(),"长按时间设置", LENGTH_SHORT).show();
+                selectrelativetime_view = getLayoutInflater().inflate(R.layout.create_timer_relative_time_selector, null);
+                mMyDialog  = new MyDialog( view.getContext(), 0, 0, selectrelativetime_view, R.style.DialogTheme);
+                mMyDialog.setCancelable(true);
+                mMyDialog.show();
+                longclicktxtDate=(TextView) selectrelativetime_view.findViewById(R.id.create_timer_selectrelativedate_thedate);
+                Calendar calendar=Calendar.getInstance();
+                longclicktxtDate.setText(calendar.get(Calendar.YEAR)+" - " +calendar.get(Calendar.MONTH)+" - "+calendar.get(Calendar.DAY_OF_MONTH) );
                 return true;//return true不响应短按事件
             }
+
+
         });
         //单点又出现不同的选择
         longtap.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                // Toast.makeText(v.getContext(),"短按时间设置", LENGTH_SHORT).show();
-                showDatePickerDialog(CreateTimer.this,  0, txtDate, calendar);
+                showDatePickerDialog(CreateTimer.this,  0, shortclicktxtDate, calendar);
 
             }});
         //-------------------------------------------------------------------------------------------------------------------------------------
@@ -75,6 +86,7 @@ public class CreateTimer extends AppCompatActivity {
 
 
     }
+
     public void onClick(View which_is_clicked)
     {
         switch (which_is_clicked.getId())
@@ -155,6 +167,33 @@ public class CreateTimer extends AppCompatActivity {
                 }
 
             }
+            //相对时间窗口修改基准时间点击
+            case R.id.create_timer_selectrelativedate_thedate:
+            {
+
+
+                //因为此处相对时间选择的视图还没有渲染，所以不能获取那个文本空间，这里设置为1，是为了里面区分：
+               // longclicktxtDate.setId(R.id.create_timer_selectrelativedate_thedate);
+                //problem
+                showDatePickerDialog(this,  3, longclicktxtDate, calendar);
+                break;
+            }
+            //相对时间窗口几天之后选择
+            case R.id.create_timer_selectrelativetime_daysafter_button:
+            {
+                break;
+            }
+            //相对时间窗口几天之前选择
+            case R.id.create_timer_selectrelativetime_daysbefore_button:
+            {
+                break;
+            }
+            //相对时间窗口取消按钮，其实不必要。
+            case R.id.create_timer_selectrelativetime_cancelbutton:
+            {
+                break;
+            }
+
                 default: Toast.makeText(this, "please click on valid button ！", LENGTH_SHORT).show();
         }
     }
@@ -165,21 +204,50 @@ public class CreateTimer extends AppCompatActivity {
     //！！！！！！！！！！--------------------------------------------------------------------------------------------------------------------
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void showDatePickerDialog(final Activity activity, int themeResId, final TextView tv, final Calendar calendar) {
-        // 直接创建一个DatePickerDialog对话框实例，并将它显示出来
-        new DatePickerDialog(activity, themeResId, new DatePickerDialog.OnDateSetListener() {
-            // 绑定监听器(How the parent is notified that the date is set.)
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                // 此处得到选择的时间，可以进行你想要的操作
-                tv.setText("You choose：#Year " + year + " #Month " + (monthOfYear + 1) + " #Day " + dayOfMonth + " ~~~");
-                final TextView txtTime=(TextView)activity.findViewById(R.id.create_timer_datetimelayout_showtime);
-                showTimePickerDialog(activity,  0, txtTime, calendar);
+        switch(tv.getId())//用于区分不同的点击事件，准确来说是长按与短按的区分
+        {
+            case R.id.create_timer_datetimelayout_showdate:
+            {
+                // 直接创建一个DatePickerDialog对话框实例，并将它显示出来
+                new DatePickerDialog(activity, themeResId, new DatePickerDialog.OnDateSetListener() {
+                    // 绑定监听器(How the parent is notified that the date is set.)
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        // 此处得到选择的时间，可以进行你想要的操作
+                        tv.setText("You choose：#Year " + year + " #Month " + (monthOfYear + 1) + " #Day " + dayOfMonth + " ~~~");
+                        final TextView txtTime=(TextView)activity.findViewById(R.id.create_timer_datetimelayout_showtime);
+                        showTimePickerDialog(activity,  0, txtTime, calendar);
+                    }
+                }
+                        // 设置初始日期
+                        , calendar.get(Calendar.YEAR)
+                        , calendar.get(Calendar.MONTH)
+                        , calendar.get(Calendar.DAY_OF_MONTH)).show();
+                break;
+            }
+            case R.id.create_timer_selectrelativedate_thedate:
+            {
+
+                new DatePickerDialog(activity, themeResId, new DatePickerDialog.OnDateSetListener() {
+                    // 绑定监听器(How the parent is notified that the date is set.)
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        // 此处得到选择的时间，可以进行你想要的操作
+
+                        tv.setText(  ""+year + " - " + (monthOfYear + 1) + " - " + dayOfMonth + "");
+
+                    }
+                }
+                        // 设置初始日期
+                        , calendar.get(Calendar.YEAR)
+                        , calendar.get(Calendar.MONTH)
+                        , calendar.get(Calendar.DAY_OF_MONTH)).show();
+                break;
+
             }
         }
-                // 设置初始日期
-                , calendar.get(Calendar.YEAR)
-                , calendar.get(Calendar.MONTH)
-                , calendar.get(Calendar.DAY_OF_MONTH)).show();
+
+
     }
 
     /**
