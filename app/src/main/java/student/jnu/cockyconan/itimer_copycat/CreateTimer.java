@@ -1,25 +1,43 @@
 package student.jnu.cockyconan.itimer_copycat;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.icu.util.Calendar;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.time.Year;
@@ -39,7 +57,7 @@ public class CreateTimer extends AppCompatActivity {
     private DateFormat format= DateFormat.getDateTimeInstance();
     private Calendar calendar= Calendar.getInstance(Locale.CHINA);
     public static Calendar RELATIVEcalendar= Calendar.getInstance(Locale.CHINA);//用于保存相对时间计算器中作为基准的日期
-
+    public static final int PICK_PHOTO = 102;
     private View setloop_view;
     private View selectrelativetime_view;
     @Override
@@ -90,18 +108,45 @@ public class CreateTimer extends AppCompatActivity {
 
 
     }
+    //!!!!-----------------------------------------------------------------------------------------------------------------
+//!!!!获取图片-----------------------------------------------------------------------------------------------------------------
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == PICK_PHOTO) {
+            // 从相册返回的数据
+            if (data != null) {
+                // 得到图片的全路径
+                Uri uri = data.getData();
+                ImageView photo=findViewById(R.id.create_timer_picture);
 
+                photo.setImageURI(uri);
+
+            }
+        }
+    }
+
+
+
+
+//-----------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------
     public void onClick(View which_is_clicked)
     {
         switch (which_is_clicked.getId())
         {
             case R.id.create_timer_addpicture_layout: {
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_PICK);
-// 设置文件类型
-                intent.setType("image/*");
-                startActivityForResult(intent, 11);
-                Toast.makeText(this, "添加图片", LENGTH_SHORT).show();
+                if (
+                        ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
+                } else {
+                    //打开相册
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    //Intent.ACTION_GET_CONTENT = "android.intent.action.GET_CONTENT"
+                    intent.setType("image/*");
+                    startActivityForResult(intent, PICK_PHOTO); // 打开相册
+                }
+
+
                 break;
             }
             /*case R.id.create_timer_date_time_layout:
@@ -259,7 +304,7 @@ public class CreateTimer extends AppCompatActivity {
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         // 此处得到选择的时间，可以进行你想要的操作
                         tv.setText("DATE:  " + year + " - " + (monthOfYear + 1) + " - " + dayOfMonth + " ~~~");
-                        final TextView txtTime=(TextView)activity.findViewById(R.id.create_timer_datetimelayout_showtime);
+                        final TextView txtTime = (TextView) activity.findViewById(R.id.create_timer_datetimelayout_showtime);
                         showTimePickerDialog(activity,  0, txtTime, calendar);
                     }
                 }
@@ -307,12 +352,13 @@ public class CreateTimer extends AppCompatActivity {
         // Calendar c = Calendar.getInstance();
         // 创建一个TimePickerDialog实例，并把它显示出来
         // 解释一哈，Activity是context的子类
+        final TextView tvtmp=tv;
         new TimePickerDialog( activity,themeResId,
                 // 绑定监听器
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        tv.setText("TIME:  " + hourOfDay + " : " + minute  + " ~~~");
+                        tvtmp.setText("TIME:  " + hourOfDay + " : " + minute  + " ~~~");
                         mMyDialog.dismiss();
                     }
                 }

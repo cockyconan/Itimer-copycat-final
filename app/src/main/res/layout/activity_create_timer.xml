@@ -23,7 +23,7 @@
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
+                android:id="@+id/create_timer_title_note_background"
                 android:layout_width="444dp"
                 android:layout_height="wrap_content"
                 android:background="#03A9F4"
@@ -104,8 +104,8 @@
 
                 <Button
                     android:id="@+id/create_timer_save_button"
-                    android:layout_width="62dp"
-                    android:layout_height="57dp"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
                     android:layout_marginStart="348dp"
                     android:layout_marginLeft="348dp"
                     android:background="@drawable/create_timer_click_effect"
@@ -119,15 +119,16 @@
 
                 <Button
                     android:id="@+id/create_timer_cancel_button"
-                    android:layout_width="62dp"
-                    android:layout_height="57dp"
-                    android:layout_marginStart="276dp"
-                    android:layout_marginLeft="276dp"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_marginStart="308dp"
+                    android:layout_marginLeft="308dp"
                     android:background="@drawable/create_timer_click_effect"
                     android:foreground="@android:drawable/ic_menu_close_clear_cancel"
                     android:onClick="onClick"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <RelativeLayout
@@ -142,7 +143,7 @@
                 android:onClick="onClick"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+                app:layout_constraintTop_toBottomOf="@+id/create_timer_title_note_background">
 
 
                 <ImageView
@@ -345,5 +346,8 @@
                 -->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+    <![CDATA[
+
     >
+]]>
 </androidx.constraintlayout.widget.ConstraintLayout>
