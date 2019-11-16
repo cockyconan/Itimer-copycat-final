@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.text.method.NumberKeyListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -39,6 +40,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.EOFException;
 import java.text.DateFormat;
 import java.time.Year;
 import java.util.Locale;
@@ -96,7 +98,8 @@ public class CreateTimer extends AppCompatActivity {
         longtap.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                // Toast.makeText(v.getContext(),"短按时间设置", LENGTH_SHORT).show();
-                showDatePickerDialog(CreateTimer.this,  0, shortclicktxtDate, calendar);
+
+                    showDatePickerDialog(CreateTimer.this, 0, shortclicktxtDate, calendar);
 
             }});
         //-------------------------------------------------------------------------------------------------------------------------------------
@@ -304,9 +307,12 @@ public class CreateTimer extends AppCompatActivity {
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         // 此处得到选择的时间，可以进行你想要的操作
                         tv.setText("DATE:  " + year + " - " + (monthOfYear + 1) + " - " + dayOfMonth + " ~~~");
-                        final TextView txtTime = (TextView) activity.findViewById(R.id.create_timer_datetimelayout_showtime);
-                        showTimePickerDialog(activity,  0, txtTime, calendar);
-                    }
+                        final TextView txt = (TextView) activity.findViewById(R.id.create_timer_datetimelayout_showtime);
+
+                            showTimePickerDialog(activity, 0, txt, calendar);
+
+
+                        }
                 }
                         // 设置初始日期
                         , calendar.get(Calendar.YEAR)
@@ -348,17 +354,18 @@ public class CreateTimer extends AppCompatActivity {
      * @param calendar
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void showTimePickerDialog(final Activity activity, int themeResId, final TextView tv, final Calendar calendar) {
+    public static void showTimePickerDialog(final Activity activity, final int themeResId, final TextView tv, final Calendar calendar) {
         // Calendar c = Calendar.getInstance();
         // 创建一个TimePickerDialog实例，并把它显示出来
         // 解释一哈，Activity是context的子类
-        final TextView tvtmp=tv;
+
         new TimePickerDialog( activity,themeResId,
                 // 绑定监听器
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        tvtmp.setText("TIME:  " + hourOfDay + " : " + minute  + " ~~~");
+                        tv.setText("TIME:  " + hourOfDay + " : " + minute  + " ~~~");
+                        if(themeResId==3)
                         mMyDialog.dismiss();
                     }
                 }
