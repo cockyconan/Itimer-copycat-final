@@ -25,6 +25,7 @@ import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -62,10 +63,25 @@ public class CreateTimer extends AppCompatActivity {
     public static final int PICK_PHOTO = 102;
     private View setloop_view;
     private View selectrelativetime_view;
+
+    private static int yeartmp;
+    private static int monthtmp;
+    private static int daytmp;
+    private static int hourtmp;
+    private static int mintmp;
+    private static boolean settimealready=false;
+    private boolean setloopalready=false;
+    private boolean setphotoalready=false;
+    private static MyTimer returnTimer=new MyTimer("","",Uri.EMPTY,0,null);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_timer);
+
+        settimealready=false;//重置
+
+
         shortclicktxtDate =(TextView)findViewById(R.id.create_timer_datetimelayout_showdate);
 
         saveBtn = (Button) findViewById(R.id.create_timer_save_button);
@@ -194,7 +210,43 @@ public class CreateTimer extends AppCompatActivity {
             }
             case R.id.create_timer_save_button:
             {
-                Toast.makeText(this, "保存按钮", LENGTH_SHORT).show();
+                EditText titletxt=(EditText) findViewById(R.id.create_timer_edittext_title);
+                EditText notetxt=(EditText) findViewById(R.id.create_timer_edittext_note);
+
+                if(TextUtils.isEmpty(titletxt.getText()))
+                {
+                    Toast.makeText(this, "the title can't be empty !", LENGTH_SHORT).show();
+                    break;
+                }
+
+                returnTimer.setTitle(titletxt.getText().toString());
+
+                if(TextUtils.isEmpty(notetxt.getText()))
+                {
+                    returnTimer.setNote("good good study, day day up~~~");
+                }
+                else{
+                    returnTimer.setNote(notetxt.getText().toString());
+                }
+                if(settimealready==true)
+                {
+
+                    long remaintime=returnTimer.getremaintime();
+                    Toast.makeText(this, "remain"+remaintime/(1000*60)+"", LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(this, "please set time", LENGTH_SHORT).show();
+                    break;
+                }
+                //if(setloopalready==true)          no need!!!!!!!!!!!!!!!!!!!!!!
+                //{
+                    //returnTimer.setLoop();
+                //}
+
+
+
+
                 break;
             }
             case R.id.create_timer_setloopdialog_buttoncancel:
@@ -218,6 +270,7 @@ public class CreateTimer extends AppCompatActivity {
                 }
                 else {
                     txt.setText("You choose cycle time : every "+edtxt.getText()+" days~~~");
+                    returnTimer.setLoop(Integer.parseInt(edtxt.getText().toString()));
                     mMyDialog.dismiss();
                     break;
                 }
@@ -246,11 +299,14 @@ public class CreateTimer extends AppCompatActivity {
                     int adddays=Integer.parseInt(edtxtafter.getText().toString());
                     RELATIVEcalendar.add(Calendar.DATE,adddays);//作添加相对日子
                     TextView date_show=(TextView)findViewById(R.id.create_timer_datetimelayout_showdate);
-                    int monthtmp=RELATIVEcalendar.get(Calendar.MONTH)+1;
-                    date_show.setText("DATE:  " + RELATIVEcalendar.get(Calendar.YEAR) + " - " + monthtmp + " - " + RELATIVEcalendar.get(Calendar.DAY_OF_MONTH) + " ~~~");
-                    RELATIVEcalendar= Calendar.getInstance(Locale.CHINA);//static的修复
+                    int monthtEmp=RELATIVEcalendar.get(Calendar.MONTH)+1;
+                    date_show.setText("DATE:  " + RELATIVEcalendar.get(Calendar.YEAR) + " - " + monthtEmp + " - " + RELATIVEcalendar.get(Calendar.DAY_OF_MONTH) + " ~~~");
+                    //RELATIVEcalendar= Calendar.getInstance(Locale.CHINA);//static的修复
+                    yeartmp=RELATIVEcalendar.get(Calendar.YEAR);
+                    monthtmp=RELATIVEcalendar.get(Calendar.MONTH);
+                    daytmp =RELATIVEcalendar.get(Calendar.DAY_OF_MONTH);
                     final TextView txtTime = (TextView) findViewById(R.id.create_timer_datetimelayout_showtime);
-                    showTimePickerDialog(this, 3, txtTime, calendar);
+                    showTimePickerDialog(this, 3, txtTime, RELATIVEcalendar);
 
                 }
                 break;
@@ -269,12 +325,14 @@ public class CreateTimer extends AppCompatActivity {
                     int adddays=-Integer.parseInt(edtxtafter.getText().toString());
                     RELATIVEcalendar.add(Calendar.DATE,adddays);//作添加相对日子
                     TextView date_show=(TextView)findViewById(R.id.create_timer_datetimelayout_showdate);
-                    int monthtmp=RELATIVEcalendar.get(Calendar.MONTH)+1;
-                    date_show.setText("DATE:  " + RELATIVEcalendar.get(Calendar.YEAR) + " - " + monthtmp + " - " + RELATIVEcalendar.get(Calendar.DAY_OF_MONTH) + " ~~~");
-                    RELATIVEcalendar= Calendar.getInstance(Locale.CHINA);//static的修复
+                    int monthtEmp=RELATIVEcalendar.get(Calendar.MONTH)+1;
+                    date_show.setText("DATE:  " + RELATIVEcalendar.get(Calendar.YEAR) + " - " + monthtEmp + " - " + RELATIVEcalendar.get(Calendar.DAY_OF_MONTH) + " ~~~");
+                    yeartmp=RELATIVEcalendar.get(Calendar.YEAR);
+                    monthtmp=RELATIVEcalendar.get(Calendar.MONTH);
+                    daytmp =RELATIVEcalendar.get(Calendar.DAY_OF_MONTH);
 
                     final TextView txtTime = (TextView) findViewById(R.id.create_timer_datetimelayout_showtime);
-                    showTimePickerDialog(this, 3, txtTime, calendar);
+                    showTimePickerDialog(this, 3, txtTime, RELATIVEcalendar);
 
                 }
                 break;
@@ -306,7 +364,13 @@ public class CreateTimer extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         // 此处得到选择的时间，可以进行你想要的操作
+                        yeartmp=year;
+                        monthtmp=monthOfYear;
+                        daytmp =dayOfMonth;
+
+
                         tv.setText("DATE:  " + year + " - " + (monthOfYear + 1) + " - " + dayOfMonth + " ~~~");
+
                         final TextView txt = (TextView) activity.findViewById(R.id.create_timer_datetimelayout_showtime);
 
                             showTimePickerDialog(activity, 0, txt, calendar);
@@ -330,7 +394,7 @@ public class CreateTimer extends AppCompatActivity {
                         // 此处得到选择的时间，可以进行你想要的操作
 
                         tv.setText(  ""+year + " - " + (monthOfYear + 1) + " - " + dayOfMonth + "");
-                        RELATIVEcalendar.set(year,monthOfYear+1,dayOfMonth);
+
 
                     }
                 }
@@ -341,6 +405,7 @@ public class CreateTimer extends AppCompatActivity {
                 break;
 
             }
+
         }
 
 
@@ -364,7 +429,16 @@ public class CreateTimer extends AppCompatActivity {
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+
+                        hourtmp=hourOfDay;
+                        mintmp=minute;
+                        returnTimer.setEndCalendar(yeartmp,monthtmp,daytmp,hourtmp ,mintmp);//设置calendar
+
                         tv.setText("TIME:  " + hourOfDay + " : " + minute  + " ~~~");
+
+                        settimealready=true;//因为在静态成员函数中调用，所以需要在判断后再修改回来。
+                        RELATIVEcalendar= Calendar.getInstance(Locale.CHINA);//static的修复
                         if(themeResId==3)
                         mMyDialog.dismiss();
                     }
@@ -374,6 +448,11 @@ public class CreateTimer extends AppCompatActivity {
                 , calendar.get(Calendar.ZONE_OFFSET)
                 // true表示采用24小时制
                 ,true).show();
+        if(themeResId==3)
+            mMyDialog.dismiss();//修复bug，否则会设置时间时点击取消，static变量将不会重置！！！！！
+
+        RELATIVEcalendar= Calendar.getInstance(Locale.CHINA);//static的修复
+
     }
 
 //--------------------------------------------------------------------------------------------------------------------------------------！！！！！！！

@@ -1,29 +1,34 @@
 package student.jnu.cockyconan.itimer_copycat;
 
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.os.CountDownTimer;
 
 import androidx.annotation.RequiresApi;
 
-import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Timer;
 
-class MyTimer {
+public class MyTimer {
 
-    public MyTimer(String title, String note, Uri photoUri, long stopTime, CountDownTimer countdown, Calendar endCalendar) {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public MyTimer(String title, String note, Uri photoUri, long stopTime, CountDownTimer countdown) {
         Title = title;
         Note = note;
-        PhotoUri = photoUri;
+        PhotoUri = Uri.parse(photoUri.toString());
         StopTime = stopTime;
         this.countdown = countdown;
-        this.endCalendar = endCalendar;
+        this.endCalendar = Calendar.getInstance(Locale.CHINA);
+
+        loop=0;//初始为零
     }
 
 
     private String Title;   //标题
     private String Note;    //备忘
+    private int loop;
     private Uri PhotoUri;   //移动端照片存储路径,而不是直接存储图片
 
 
@@ -34,7 +39,7 @@ class MyTimer {
 
     private CountDownTimer countdown;
 
-    private Calendar endCalendar; //为了方便我们记录介绍的日期而已作用不大的。
+    private android.icu.util.Calendar endCalendar; //为了方便我们记录介绍的日期而已作用不大的。
 
     public String getTitle() {
         return Title;
@@ -76,14 +81,19 @@ class MyTimer {
         this.countdown = countdown;
     }
 
-    public Calendar getEndCalendar() {
+    public android.icu.util.Calendar getEndCalendar() {
         return endCalendar;
     }
 
-    public void setEndCalendar(Calendar endCalendar) {
-        this.endCalendar = endCalendar;
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void setEndCalendar(int year,int month ,int day,int hour,int min) {
+        this.endCalendar.set(year, month , day, hour, min,0);
     }
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public long getremaintime()
+    {
+        return endCalendar.getTimeInMillis()-28800000l-Calendar.getInstance(Locale.CHINA).getTimeInMillis();
+    }
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean equals(Object o) {
@@ -97,6 +107,16 @@ class MyTimer {
                 Objects.equals(countdown, myTimer.countdown) &&
                 Objects.equals(endCalendar, myTimer.endCalendar);
     }
+
+    public int getLoop() {
+        return loop;
+    }
+
+    public void setLoop(int loop) {
+        this.loop = loop;
+    }
+
+
 
 
     /*

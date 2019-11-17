@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -38,32 +40,44 @@ public class MyTimerArrayAdapter extends ArrayAdapter<MyTimer> {
         TextView enddate= (TextView) item.findViewById(R.id.content_main_listview_enddate);
         TextView memo =(TextView) item.findViewById(R.id.content_main_listview_memo);
         TextView emergencycolor =(TextView)item.findViewById(R.id.content_main_listview_emergencycolor);
+        TextView remaintime=(TextView) item.findViewById(R.id.content_main_listview_remaintime);
 
         MyTimer myTimer=this.getItem(position);
 
-        photo.setImageURI(myTimer.getPhotoUri());
+       // photo.setImageURI(myTimer.getPhotoUri());
         title.setText(myTimer.getTitle());
-        Calendar calendartmp=myTimer.getEndCalendar();
-        enddate.setText("End Date： "+calendartmp.get(Calendar.YEAR)+" - "+calendartmp.get(Calendar.MONTH)+" - " +calendartmp.get(Calendar.DAY_OF_MONTH));
+       // Calendar calendartmp=myTimer.getEndCalendar();
+        //enddate.setText("End Date： "+calendartmp.get(Calendar.YEAR)+" - "+calendartmp.get(Calendar.MONTH)+" - " +calendartmp.get(Calendar.DAY_OF_MONTH));
         memo.setText(myTimer.getNote());
 
 
         //下面设置背景颜色。
         //!!---------------------------------------------------------------------------------------------------------------------------------------------------
         long remaintime_millissec=myTimer.getStopTime()- SystemClock.elapsedRealtime();//计算当前时间与结束时间相差多少，用以设置紧急程度颜色
-        if((remaintime_millissec/(1000*60*60))<=1)
+        if((remaintime_millissec/(1000*60*60))<=1) {
             emergencycolor.setBackgroundColor(Color.rgb(255, 0, 0));
-        else if((remaintime_millissec/(1000*60*60))<=24)
+            remaintime.setText(remaintime_millissec/(1000*60)+"mins to go");
+        }
+        else if((remaintime_millissec/(1000*60*60))<=24) {
+            remaintime.setText(remaintime_millissec / (1000 * 60 * 60) + "hours to go");
             emergencycolor.setBackgroundColor(Color.rgb(255, 80, 80));
-        else if((remaintime_millissec/(1000*60*60))<=168)
+        }
+        else if((remaintime_millissec/(1000*60*60))<=168) {
+            remaintime.setText(remaintime_millissec / (1000 * 60 * 60 * 24) + "days to go");
             emergencycolor.setBackgroundColor(Color.rgb(255, 120, 0));
-        else if((remaintime_millissec/(1000*60*60))<=720)
+        }
+        else if((remaintime_millissec/(1000*60*60))<=720) {
+            remaintime.setText(remaintime_millissec / (1000 * 60 * 60 * 24) + "days to go");
             emergencycolor.setBackgroundColor(Color.rgb(255, 235, 69));
-        else if((remaintime_millissec/(1000*60*60))<=4320)
+        }
+        else if((remaintime_millissec/(1000*60*60))<=4320) {
             emergencycolor.setBackgroundColor(Color.rgb(165, 165, 165));
-        else
+            remaintime.setText(remaintime_millissec / (1000 * 60 * 60 * 24) + "days to go");
+        }
+        else {
             emergencycolor.setBackgroundColor(Color.rgb(255, 255, 255));
-
+            remaintime.setText(remaintime_millissec / (1000 * 60 * 60 * 24) + "days to go");
+        }
 
         //----------------------------------------------------------------------------------------------------------------------------------------------------
 
