@@ -46,6 +46,8 @@ import java.text.DateFormat;
 import java.time.Year;
 import java.util.Locale;
 
+import student.jnu.cockyconan.itimer_copycat.ui.home.HomeFragment;
+
 import static android.widget.Toast.LENGTH_SHORT;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -72,7 +74,7 @@ public class CreateTimer extends AppCompatActivity {
     private static boolean settimealready=false;
     private boolean setloopalready=false;
     private boolean setphotoalready=false;
-    private static MyTimer returnTimer=new MyTimer("","",Uri.EMPTY,0,null);
+    private static MyTimer returnTimer=new MyTimer("","",Uri.EMPTY);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,80 @@ public class CreateTimer extends AppCompatActivity {
         shortclicktxtDate =(TextView)findViewById(R.id.create_timer_datetimelayout_showdate);
 
         saveBtn = (Button) findViewById(R.id.create_timer_save_button);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText titletxt=(EditText) findViewById(R.id.create_timer_edittext_title);
+                EditText notetxt=(EditText) findViewById(R.id.create_timer_edittext_note);
+
+                if(TextUtils.isEmpty(titletxt.getText()))
+                {
+                    Toast.makeText(getApplicationContext(), "the title can't be empty !", LENGTH_SHORT).show();
+
+                }
+                else{
+                    returnTimer.setTitle(titletxt.getText().toString());
+
+                    if(TextUtils.isEmpty(notetxt.getText()))
+                    {
+                        returnTimer.setNote("good good study, day day up~~~");
+                        if(settimealready==true)
+                        {
+                            Intent intentfinishadd=new Intent();
+
+
+                            //intentfinishadd.putExtra("CreateTimer", returnTimer);
+
+                            intentfinishadd.putExtra("createtimer",returnTimer);
+                            intentfinishadd.putExtra("createtimer_year",returnTimer.getEndCalendar().get(Calendar.YEAR));
+                            intentfinishadd.putExtra("createtimer_month",returnTimer.getEndCalendar().get(Calendar.MONTH));
+                            intentfinishadd.putExtra("createtimer_day",returnTimer.getEndCalendar().get(Calendar.DAY_OF_MONTH));
+                            intentfinishadd.putExtra("createtimer_hour",returnTimer.getEndCalendar().get(Calendar.HOUR));
+                            intentfinishadd.putExtra("createtimer_min",returnTimer.getEndCalendar().get(Calendar.MINUTE));
+                            setResult(RESULT_OK,intentfinishadd);
+                            CreateTimer.this.finish();
+
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "please set time", LENGTH_SHORT).show();
+
+                        }
+                    }
+                    else{
+                        returnTimer.setNote(notetxt.getText().toString());
+                        if(settimealready==true)
+                        {
+                            Intent intentfinishadd=new Intent();
+
+
+                            intentfinishadd.putExtra("CreateTimer", returnTimer);
+                            intentfinishadd.putExtra("createtimer_year",returnTimer.getEndCalendar().get(Calendar.YEAR));
+                            intentfinishadd.putExtra("createtimer_month",returnTimer.getEndCalendar().get(Calendar.MONTH));
+                            intentfinishadd.putExtra("createtimer_day",returnTimer.getEndCalendar().get(Calendar.DAY_OF_MONTH));
+                            intentfinishadd.putExtra("createtimer_hour",returnTimer.getEndCalendar().get(Calendar.HOUR));
+                            intentfinishadd.putExtra("createtimer_min",returnTimer.getEndCalendar().get(Calendar.MINUTE));
+                            setResult(RESULT_OK,intentfinishadd);
+                            CreateTimer.this.finish();
+
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "please set time", LENGTH_SHORT).show();
+
+                        }
+                    }
+                }
+
+
+
+                //if(setloopalready==true)          no need!!!!!!!!!!!!!!!!!!!!!!
+                //{
+                //returnTimer.setLoop();
+                //}
+
+            }
+        });
         cancelBtn =(Button) findViewById(R.id.create_timer_cancel_button);
 
 
@@ -136,6 +212,9 @@ public class CreateTimer extends AppCompatActivity {
                 // 得到图片的全路径
                 Uri uri = data.getData();
                 ImageView photo=findViewById(R.id.create_timer_picture);
+
+                //设置photouri，photouri应该在初始时设置为null
+                returnTimer.setPhotoUri(uri);
 
                 photo.setImageURI(uri);
 
@@ -193,8 +272,8 @@ public class CreateTimer extends AppCompatActivity {
                 builder.setPositiveButton("just do it !" ,  new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intentswitch=new Intent(CreateTimer.this, MainActivity.class);
-                        startActivity(intentswitch);
+                        //Intent intentswitch=new Intent(CreateTimer.this, MainActivity.class);
+                        //startActivity(intentswitch);
                         CreateTimer.this.finish();
                     }
                 });
@@ -208,47 +287,7 @@ public class CreateTimer extends AppCompatActivity {
 
                 break;
             }
-            case R.id.create_timer_save_button:
-            {
-                EditText titletxt=(EditText) findViewById(R.id.create_timer_edittext_title);
-                EditText notetxt=(EditText) findViewById(R.id.create_timer_edittext_note);
 
-                if(TextUtils.isEmpty(titletxt.getText()))
-                {
-                    Toast.makeText(this, "the title can't be empty !", LENGTH_SHORT).show();
-                    break;
-                }
-
-                returnTimer.setTitle(titletxt.getText().toString());
-
-                if(TextUtils.isEmpty(notetxt.getText()))
-                {
-                    returnTimer.setNote("good good study, day day up~~~");
-                }
-                else{
-                    returnTimer.setNote(notetxt.getText().toString());
-                }
-                if(settimealready==true)
-                {
-
-                    long remaintime=returnTimer.getremaintime();
-                    Toast.makeText(this, "remain"+remaintime/(1000*60)+"", LENGTH_SHORT).show();
-                }
-                else
-                {
-                    Toast.makeText(this, "please set time", LENGTH_SHORT).show();
-                    break;
-                }
-                //if(setloopalready==true)          no need!!!!!!!!!!!!!!!!!!!!!!
-                //{
-                    //returnTimer.setLoop();
-                //}
-
-
-
-
-                break;
-            }
             case R.id.create_timer_setloopdialog_buttoncancel:
             {
                 mMyDialog.dismiss();
@@ -347,6 +386,7 @@ public class CreateTimer extends AppCompatActivity {
                 default: Toast.makeText(this, "please click on valid button ！", LENGTH_SHORT).show();
         }
     }
+
 
 
 

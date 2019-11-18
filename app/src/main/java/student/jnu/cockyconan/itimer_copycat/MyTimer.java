@@ -4,22 +4,27 @@ import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.Serializable;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Timer;
 
-public class MyTimer {
+public class MyTimer implements Parcelable {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public MyTimer(String title, String note, Uri photoUri, long stopTime, CountDownTimer countdown) {
+    public MyTimer(String title, String note, Uri photoUri) {
         Title = title;
         Note = note;
         PhotoUri = Uri.parse(photoUri.toString());
-        StopTime = stopTime;
-        this.countdown = countdown;
+
+
+
+
         this.endCalendar = Calendar.getInstance(Locale.CHINA);
 
         loop=0;//初始为零
@@ -34,12 +39,30 @@ public class MyTimer {
 
     //借用google为我们实现的countdowntimer，
     // mstoptimeinfuture
-    private long StopTime;  //每次退出程序时，保存一下结束时间，方便下次立马访问
-    //不确定需不需要
 
-    private CountDownTimer countdown;
+
+
 
     private android.icu.util.Calendar endCalendar; //为了方便我们记录介绍的日期而已作用不大的。
+
+    protected MyTimer(Parcel in) {
+        Title = in.readString();
+        Note = in.readString();
+        loop = in.readInt();
+        PhotoUri = in.readParcelable(Uri.class.getClassLoader());
+    }
+
+    public static final Creator<MyTimer> CREATOR = new Creator<MyTimer>() {
+        @Override
+        public MyTimer createFromParcel(Parcel in) {
+            return new MyTimer(in);
+        }
+
+        @Override
+        public MyTimer[] newArray(int size) {
+            return new MyTimer[size];
+        }
+    };
 
     public String getTitle() {
         return Title;
@@ -65,21 +88,9 @@ public class MyTimer {
         PhotoUri = photoUri;
     }
 
-    public long getStopTime() {
-        return StopTime;
-    }
 
-    public void setStopTime(long stopTime) {
-        StopTime = stopTime;
-    }
 
-    public CountDownTimer getCountdown() {
-        return countdown;
-    }
 
-    public void setCountdown(CountDownTimer countdown) {
-        this.countdown = countdown;
-    }
 
     public android.icu.util.Calendar getEndCalendar() {
         return endCalendar;
@@ -88,6 +99,11 @@ public class MyTimer {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void setEndCalendar(int year,int month ,int day,int hour,int min) {
         this.endCalendar.set(year, month , day, hour, min,0);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void reintializeCalendar()
+    {
+        endCalendar= Calendar.getInstance(Locale.CHINA);
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     public long getremaintime()
@@ -100,11 +116,10 @@ public class MyTimer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MyTimer myTimer = (MyTimer) o;
-        return StopTime == myTimer.StopTime &&
+        return
                 Objects.equals(Title, myTimer.Title) &&
                 Objects.equals(Note, myTimer.Note) &&
                 Objects.equals(PhotoUri, myTimer.PhotoUri) &&
-                Objects.equals(countdown, myTimer.countdown) &&
                 Objects.equals(endCalendar, myTimer.endCalendar);
     }
 
@@ -114,6 +129,19 @@ public class MyTimer {
 
     public void setLoop(int loop) {
         this.loop = loop;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(Title);
+        dest.writeString(Note);
+        dest.writeInt(loop);
+        dest.writeParcelable(PhotoUri, flags);
     }
 
 
