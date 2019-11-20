@@ -12,6 +12,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,7 +42,9 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.time.Year;
 import java.util.Locale;
@@ -55,7 +58,7 @@ public class CreateTimer extends AppCompatActivity {
     private EditText title;
     private EditText note;
     private Button saveBtn;
-    private Button cancelBtn;
+
     private TextView shortclicktxtDate;
     private TextView longclicktxtDate;
     public static MyDialog mMyDialog;
@@ -106,11 +109,26 @@ public class CreateTimer extends AppCompatActivity {
                         returnTimer.setNote("good good study, day day up~~~");
                         if(settimealready==true)
                         {
+                            Bitmap bm=null;
+                            ContentResolver resolver=getContentResolver();
+                            byte[] bytepic = new byte[0];
+                            try{
+                                Uri originURI=returnTimer.getPhotoUri();
+                                bm=MediaStore.Images.Media.getBitmap(resolver,originURI);
+                                ByteArrayOutputStream output=new ByteArrayOutputStream();
+                                bm=Bitmap.createScaledBitmap(bm,415,415,true);
+                                bm.compress(Bitmap.CompressFormat.PNG,100,output);
+                                bytepic=output.toByteArray();
+                                if(bytepic.length!=0)
+                                    Toast.makeText(getApplicationContext(),"uri to bitmap success !", LENGTH_SHORT).show();
+                            }catch(IOException e){
+                                
+                            }
                             Intent intentfinishadd=new Intent();
 
 
                             //intentfinishadd.putExtra("CreateTimer", returnTimer);
-
+                            intentfinishadd.putExtra("bitmap",bytepic);
                             intentfinishadd.putExtra("createtimer",returnTimer);
                             intentfinishadd.putExtra("createtimer_year",returnTimer.getEndCalendar().get(Calendar.YEAR));
                             intentfinishadd.putExtra("createtimer_month",returnTimer.getEndCalendar().get(Calendar.MONTH));
@@ -127,14 +145,34 @@ public class CreateTimer extends AppCompatActivity {
 
                         }
                     }
-                    else{
-                        returnTimer.setNote(notetxt.getText().toString());
+                    else
+                        {
+                            String tmp=notetxt.getText().toString();
+                        returnTimer.setNote(tmp.toString());
                         if(settimealready==true)
                         {
+
+                            Bitmap bm=null;
+                            ContentResolver resolver=getContentResolver();
+                            byte[] bytepic = new byte[0];
+                            try{
+                                Uri originURI=returnTimer.getPhotoUri();
+                                bm=MediaStore.Images.Media.getBitmap(resolver,originURI);
+                                ByteArrayOutputStream output=new ByteArrayOutputStream();
+                                bm=Bitmap.createScaledBitmap(bm,415,415,true);
+                                bm.compress(Bitmap.CompressFormat.PNG,100,output);
+                                bytepic=output.toByteArray();
+                                if(bytepic.length!=0)
+                                    Toast.makeText(getApplicationContext(),"uri to bitmap success !", LENGTH_SHORT).show();
+                            }catch(IOException e){
+
+                            }
                             Intent intentfinishadd=new Intent();
 
 
-                            intentfinishadd.putExtra("CreateTimer", returnTimer);
+                            //intentfinishadd.putExtra("CreateTimer", returnTimer);
+                            intentfinishadd.putExtra("bitmap",bytepic);
+                            intentfinishadd.putExtra("createtimer",returnTimer);
                             intentfinishadd.putExtra("createtimer_year",returnTimer.getEndCalendar().get(Calendar.YEAR));
                             intentfinishadd.putExtra("createtimer_month",returnTimer.getEndCalendar().get(Calendar.MONTH));
                             intentfinishadd.putExtra("createtimer_day",returnTimer.getEndCalendar().get(Calendar.DAY_OF_MONTH));
@@ -161,7 +199,7 @@ public class CreateTimer extends AppCompatActivity {
 
             }
         });
-        cancelBtn =(Button) findViewById(R.id.create_timer_cancel_button);
+
 
 
         //时间选择长按短按区分：

@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment {
 
     private MyTimerArrayAdapter myTimerArrayAdapter;
 
-
+    public MyTimerArrayAdapter getAdapter(){return myTimerArrayAdapter;}
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -53,12 +53,15 @@ public class HomeFragment extends Fragment {
         AllTimers.add(new MyTimer("titletest","notetest", Uri.EMPTY,5000));
         */
 //myTimerArrayAdapter.notifyDataSetChanged();
-        myTimerArrayAdapter=new MyTimerArrayAdapter(root.getContext(),R.layout.fragment_home_listview_model,AllTimers);
+
+        myTimerArrayAdapter=new MyTimerArrayAdapter(this.getContext(),R.layout.fragment_home_listview_model,AllTimers);
 
         ListView ListViewTimer=(ListView)root.findViewById(R.id.content_main_listview);
+
         ListViewTimer.setAdapter(myTimerArrayAdapter);
 
         return root;
     }
+
 
 }

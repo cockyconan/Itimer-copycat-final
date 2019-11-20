@@ -1,6 +1,8 @@
 package student.jnu.cockyconan.itimer_copycat;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
 
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -30,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import student.jnu.cockyconan.itimer_copycat.ui.home.HomeFragment;
+
 import static android.icu.util.Calendar.getInstance;
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -37,12 +42,21 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    public ArrayList<MyTimer> getAllTimers() {
+    public  ArrayList<MyTimer> getAllTimers() {
         return allTimers;
     }
+    public static Bitmap Bytes2Bitmap(byte[] b)
+    {
+            if(b.length!=0){
+                return BitmapFactory.decodeByteArray(b,0,b.length);
 
+            }else
+            {
+                return null;
+            }
+    }
     //my stuff begin
-    private ArrayList<MyTimer> allTimers=new ArrayList<MyTimer>();
+    private static ArrayList<MyTimer> allTimers=new ArrayList<MyTimer>();
 //my stuff end
 
     @Override
@@ -77,14 +91,17 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-       // if(requestCode==666 && resultCode==RESULT_OK) {
-            Toast.makeText(this, "created !", LENGTH_SHORT).show();
+       if(requestCode==666 && resultCode==RESULT_OK) {
 
 
+
+        byte[] bytes=data.getByteArrayExtra("bitmap");
+        Bitmap bitmap=MainActivity.Bytes2Bitmap(bytes);
         int year=data.getIntExtra("createtimer_year",2019);
         int month=data.getIntExtra("createtimer_month",10);
         int day=data.getIntExtra("createtimer_day",18);
@@ -95,11 +112,24 @@ public class MainActivity extends AppCompatActivity {
             myTimertmp=(MyTimer) data.getParcelableExtra("createtimer");
             myTimertmp.reintializeCalendar();
             myTimertmp.setEndCalendar(year,month,day,hour,min);
+            myTimertmp.setPhotobitmap(bitmap);
+           // myTimertmp.setPhotobitmap(bitmap);
             allTimers.add(myTimertmp);
-       // }
-       // else{
-       //     Toast.makeText(this, "not create!", LENGTH_SHORT).show();
-       // }
+
+           finish();
+           startActivity(getIntent());
+            //更新页面！！！！！！
+
+           Toast.makeText(this, "created !", LENGTH_SHORT).show();
+
+
+
+        }
+        else{
+           finish();
+           startActivity(getIntent());
+            Toast.makeText(this, "did not create!", LENGTH_SHORT).show();
+        }
 
 
 

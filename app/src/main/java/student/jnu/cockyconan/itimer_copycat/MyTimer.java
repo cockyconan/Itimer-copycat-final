@@ -1,5 +1,6 @@
 package student.jnu.cockyconan.itimer_copycat;
 
+import android.graphics.Bitmap;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
@@ -30,7 +31,7 @@ public class MyTimer implements Parcelable {
         loop=0;//初始为零
     }
 
-
+    private Bitmap photobitmap;
     private String Title;   //标题
     private String Note;    //备忘
     private int loop;
@@ -144,17 +145,18 @@ public class MyTimer implements Parcelable {
         dest.writeParcelable(PhotoUri, flags);
     }
 
+    public Bitmap getPhotobitmap() {
+        return photobitmap;
+    }
+
+    public void setPhotobitmap(Bitmap photobitmap) {
+        this.photobitmap = photobitmap;
+    }
 
 
 
-    /*
-    private int Endtime_Year;
-    private int Endtime_Month;
-    private int Endtime_DayOfMonth;
-    private int Endtime_Hour;
-    private int Endtime_Minute;
-    private int Endtime_Second;
-*/
+
+
 
 
 }

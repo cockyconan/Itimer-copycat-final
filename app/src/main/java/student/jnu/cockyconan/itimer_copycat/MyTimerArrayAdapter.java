@@ -48,7 +48,7 @@ public class MyTimerArrayAdapter extends ArrayAdapter<MyTimer> {
 
         MyTimer myTimer=this.getItem(position);
 
-        photo.setImageURI(myTimer.getPhotoUri());
+        photo.setImageBitmap(myTimer.getPhotobitmap());
         title.setText(myTimer.getTitle());
         android.icu.util.Calendar calendartmp=myTimer.getEndCalendar();
         enddate.setText("End Time： "+calendartmp.get(Calendar.YEAR)+" - "+calendartmp.get(Calendar.MONTH)+" - " +calendartmp.get(Calendar.DAY_OF_MONTH)+"  "+calendartmp.get(Calendar.HOUR)+":"+calendartmp.get(Calendar.MINUTE));
