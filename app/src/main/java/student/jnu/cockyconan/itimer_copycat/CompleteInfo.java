@@ -53,28 +53,52 @@ public class CompleteInfo extends AppCompatActivity {
         final TextView remaintimetxt=(TextView)findViewById(R.id.complete_info_remain_time);
         ImageView imageViewbg=(ImageView)findViewById(R.id.complete_info_bg);
 
-        completeinfo_calendar.set(year,month,day,hour,min);
+        completeinfo_calendar.set(year,month,day,hour,min,0);//这里的零必须设置
 
         titletxt.setText(title);
         memotxt.setText(memo);
-        endtimetxt.setText(completeinfo_calendar.get(Calendar.YEAR)+"-"+completeinfo_calendar.get(Calendar.MONTH)+1+"-"+completeinfo_calendar.get(Calendar.DAY_OF_MONTH)+" "+
-                completeinfo_calendar.get(Calendar.HOUR)+":"+completeinfo_calendar.get(Calendar.MINUTE)+" "+completeinfo_calendar.get(Calendar.DAY_OF_WEEK));
+        int monthtmp=completeinfo_calendar.get(Calendar.MONTH)+1;
+        String dayofweek= null;
+        switch (completeinfo_calendar.get(Calendar.DAY_OF_WEEK))
+        {
+            case 1:dayofweek="Sunday";break;
+            case 2:dayofweek="Monday";break;
+            case 3:dayofweek="Tuesday";break;
+            case 4:dayofweek="Wednesday";break;
+            case 5:dayofweek="Thursday";break;
+            case 6:dayofweek="Friday";break;
+            case 7:dayofweek="Saturday";break;
+            default:
+        }
+        endtimetxt.setText(completeinfo_calendar.get(Calendar.YEAR)+"-"+monthtmp+"-"+completeinfo_calendar.get(Calendar.DAY_OF_MONTH)+" "+
+                completeinfo_calendar.get(Calendar.HOUR)+":"+completeinfo_calendar.get(Calendar.MINUTE)+" "+dayofweek);
         imageViewbg.setBackgroundColor(Color.rgb(165, 165, 165));
 
         CountDownTimer completeinfo_timer;
          completeinfo_timer=new CountDownTimer(getremaintime(),1000) {
             @Override
             public void onTick(long remaintime_millissec) {
-                int days=(int)remaintime_millissec/(1000*60*60*24);
-                int hours=(int)(remaintime_millissec%(1000*60*60*24))/(1000*60*60);
-                int mins=(int)(remaintime_millissec%(1000*60*60))/(1000*60);
-                int second=(int)(remaintime_millissec%(1000*60))/1000;
+                long days=(long)remaintime_millissec/(1000*60*60*24);
+                long hours=(long)(remaintime_millissec%(1000*60*60*24))/(1000*60*60);
+                long mins=(long)(remaintime_millissec%(1000*60*60))/(1000*60);
+                long second=(long)(remaintime_millissec%(1000*60)/1000);
                 if(switchremaintimeshow==0) {
                     remaintimetxt.setText(days+" Days "+hours+" Hours "+mins+" Mins "+second+" Seconds ");
                 }
-                else
+                else if(switchremaintimeshow==1)
                 {
-                    remaintimetxt.setText( "hahaha");
+                    hours+=days*24;
+                    remaintimetxt.setText(hours+" Hours "+mins+" Mins "+second+" Seconds ");
+                }
+                else if(switchremaintimeshow==2)
+                {
+                    mins=mins+days*24*60+hours*60;
+                    remaintimetxt.setText(mins+" Mins "+second+" Seconds ");
+                }
+                else if(switchremaintimeshow==3)
+                {
+                    second=second+mins*60+days*24*60*60+hours*60*60;
+                    remaintimetxt.setText(second+" Seconds ");
                 }
             }
 
@@ -124,11 +148,17 @@ public class CompleteInfo extends AppCompatActivity {
             }
             case R.id.complete_info_remain_time://模仿点击剩余时间会改变计时方式
             {
-                if(switchremaintimeshow==0)
-                    switchremaintimeshow=1;
-                else
+                if (switchremaintimeshow == 0)
+                    switchremaintimeshow = 1;
+                else if (switchremaintimeshow == 1) {
+                    switchremaintimeshow = 2;
+                }
+                else if (switchremaintimeshow == 2) {
+                    switchremaintimeshow = 3;
+                }
+                else if (switchremaintimeshow == 3)
                 {
-                    switchremaintimeshow=0;
+                    switchremaintimeshow = 0;
                 }
             }
 
