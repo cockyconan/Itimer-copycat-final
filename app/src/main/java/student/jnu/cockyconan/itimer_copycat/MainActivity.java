@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    public  ArrayList<MyTimer> getAllTimers() {
+    public static ArrayList<MyTimer> getAllTimers() {
         return allTimers;
     }
     public static Bitmap Bytes2Bitmap(byte[] b)
@@ -99,9 +99,9 @@ public class MainActivity extends AppCompatActivity {
        if(requestCode==666 && resultCode==RESULT_OK) {
 
 
+           byte[] bytes=data.getByteArrayExtra("bitmap");
+           Bitmap bitmap=MainActivity.Bytes2Bitmap(bytes);
 
-        byte[] bytes=data.getByteArrayExtra("bitmap");
-        Bitmap bitmap=MainActivity.Bytes2Bitmap(bytes);
         int year=data.getIntExtra("createtimer_year",2019);
         int month=data.getIntExtra("createtimer_month",10);
         int day=data.getIntExtra("createtimer_day",18);
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
            startActivity(getIntent());
             //更新页面！！！！！！
 
-           Toast.makeText(this, "created !", LENGTH_SHORT).show();
+           Toast.makeText(this, "create success", LENGTH_SHORT).show();
 
 
 

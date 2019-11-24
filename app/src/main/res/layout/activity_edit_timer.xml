@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/create_timer_constraintlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".CreateTimer">
+
+    <ScrollView
+        android:id="@+id/sv_bussiness"
+        android:layout_width="408dp"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/create_timer_title_note_background"
+                android:layout_width="444dp"
+                android:layout_height="wrap_content"
+                android:background="#03A9F4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/create_timer_edittext_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="56dp"
+                    android:layout_marginLeft="56dp"
+                    android:layout_marginTop="76dp"
+                    android:ems="16"
+                    android:gravity="start|top"
+                    android:hint="birthday,anniversary,holiday~~~"
+                    android:inputType="textMultiLine"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#FFFFFF"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="52dp"
+                    android:layout_marginLeft="52dp"
+                    android:layout_marginTop="36dp"
+                    android:text="Title:"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    app:fontFamily="casual"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="52dp"
+                    android:layout_marginLeft="52dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Note:"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    app:fontFamily="casual"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/create_timer_edittext_title" />
+
+                <EditText
+                    android:id="@+id/create_timer_edittext_note"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="56dp"
+                    android:layout_marginLeft="56dp"
+                    android:ems="16"
+                    android:gravity="start|top"
+                    android:hint="thing wanna say,a goal,a motto~~~"
+                    android:inputType="textMultiLine"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#FFFFFF"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="192dp"
+                    android:layout_marginLeft="192dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/create_timer_edittext_note" />
+
+                <Button
+                    android:id="@+id/create_timer_save_button"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_marginStart="372dp"
+                    android:layout_marginLeft="372dp"
+                    android:background="@drawable/create_timer_click_effect"
+                    android:foreground="@android:drawable/ic_menu_add"
+                    android:onClick="onClick"
+                    android:outlineAmbientShadowColor="@color/colorAccent"
+                    android:outlineSpotShadowColor="@android:color/holo_blue_bright"
+                    android:shadowColor="@color/colorAccent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/create_timer_cancel_button"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:background="@drawable/create_timer_click_effect"
+                    android:foreground="@android:drawable/ic_menu_revert"
+                    android:onClick="onClick"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <RelativeLayout
+                android:id="@+id/create_timer_date_time_layout"
+                android:layout_width="410dp"
+                android:layout_height="104dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/create_timer_click_effect"
+                android:clickable="true"
+
+                android:longClickable="false"
+                android:onClick="onClick"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/create_timer_title_note_background">
+
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="82dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="331dp"
+                    android:layout_marginRight="331dp"
+                    app:srcCompat="@android:drawable/ic_menu_recent_history" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="98dp"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginBottom="70dp"
+                    android:text="Date and Time"
+                    android:textColor="#FF9800"
+                    app:fontFamily="casual" />
+
+                <TextView
+                    android:id="@+id/create_timer_datetimelayout_showdate"
+                    android:layout_width="317dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginBottom="47dp"
+                    android:text="long tap to activate relative time calculator"
+                    android:textColor="#03A9F4"
+                    app:fontFamily="casual" />
+
+                <TextView
+                    android:id="@+id/create_timer_datetimelayout_showtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/create_timer_datetimelayout_showdate"
+                    android:layout_alignLeft="@+id/create_timer_datetimelayout_showdate"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="-1dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="short tap to set time"
+                    android:textColor="#03A9F4"
+                    app:fontFamily="casual" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/create_timer_repeat_layout"
+                android:layout_width="410dp"
+                android:layout_height="104dp"
+                android:background="@drawable/create_timer_click_effect"
+                android:clickable="true"
+                android:longClickable="true"
+                android:onClick="onClick"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/create_timer_date_time_layout">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="332dp"
+                    android:layout_marginRight="332dp"
+                    android:outlineAmbientShadowColor="#FA9602"
+                    android:outlineSpotShadowColor="#FF9800"
+                    app:srcCompat="@android:drawable/ic_menu_rotate" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginBottom="70dp"
+                    android:text="Repeat Setting"
+                    android:textColor="#FF9800"
+                    app:fontFamily="casual" />
+
+                <TextView
+                    android:id="@+id/create_timer_repeat_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginBottom="30dp"
+                    android:text="there are no settings"
+                    android:textColor="#03A9F4"
+                    app:fontFamily="casual" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/create_timer_addpicture_layout"
+                android:layout_width="410dp"
+                android:layout_height="103dp"
+                android:background="@drawable/create_timer_click_effect"
+                android:clickable="true"
+                android:longClickable="true"
+                android:onClick="onClick"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/create_timer_repeat_layout">
+
+                <ImageView
+                    android:id="@+id/create_timer_picture"
+                    android:layout_width="77dp"
+                    android:layout_height="103dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:outlineAmbientShadowColor="#929191"
+                    android:outlineSpotShadowColor="#9B9191"
+                    app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="101dp"
+                    android:layout_marginLeft="101dp"
+                    android:layout_marginBottom="70dp"
+                    android:text="Add Pics"
+                    android:textColor="#FF9800"
+                    app:fontFamily="casual" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="101dp"
+                    android:layout_marginLeft="101dp"
+                    android:layout_marginBottom="30dp"
+                    android:text="choose a fit picture for the event"
+                    android:textColor="#03A9F4"
+                    app:fontFamily="casual" />
+            </RelativeLayout>
+            <!--
+            <Button
+                android:id="@+id/create_timer_save_button"
+                android:layout_width="204dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="40dp"
+                android:background="#85EE0C"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:onClick="onClick"
+                android:text="save"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/create_timer_addpicture_layout" />
+
+            <Button
+                android:id="@+id/create_timer_cancel_button"
+                android:layout_width="204dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="40dp"
+                android:background="#F10505"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:onClick="onClick"
+                android:text="cancel"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/create_timer_addpicture_layout" />
+                -->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+    <![CDATA[
+
+    >
+]]>
+</androidx.constraintlayout.widget.ConstraintLayout>

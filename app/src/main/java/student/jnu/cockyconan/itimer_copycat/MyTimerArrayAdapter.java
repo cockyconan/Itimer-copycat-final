@@ -65,7 +65,7 @@ public class MyTimerArrayAdapter extends ArrayAdapter<MyTimer> {
                     remaintime.setText(remaintime_millissec/(1000*60)+"mins to go");
                 }
                 else if((remaintime_millissec/(1000*60*60))<=24) {
-                    remaintime.setText(remaintime_millissec / (1000 ) + "second to go");
+                    remaintime.setText(remaintime_millissec / (1000*60*60 ) + "hours to go");
                     emergencycolor.setBackgroundColor(Color.rgb(255, 80, 80));
                 }
                 else if((remaintime_millissec/(1000*60*60))<=168) {

@@ -1,10 +1,13 @@
 package student.jnu.cockyconan.itimer_copycat;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.os.Build;
@@ -14,7 +17,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 
 import static android.icu.util.Calendar.getInstance;
@@ -25,6 +30,20 @@ public class CompleteInfo extends AppCompatActivity {
     private Calendar completeinfo_calendar=getInstance(Locale.CHINA);
 
     private int switchremaintimeshow=0;
+
+    private int position;
+
+    private String title;
+    private String memo;
+    private int year;
+    private int month;
+    private int day;
+    private int hour;
+    private int min;
+    private int loop;
+    private Bitmap bitmapbg;
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +51,17 @@ public class CompleteInfo extends AppCompatActivity {
         setContentView(R.layout.activity_complete_info);
 
         Intent intenttmp=getIntent();
-        int position=intenttmp.getIntExtra("position",0);
-        String title=intenttmp.getStringExtra("title");
-        String memo=intenttmp.getStringExtra("memo");
-        int year=intenttmp.getIntExtra("year",0);
-        int month=intenttmp.getIntExtra("month",0);
-        int day=intenttmp.getIntExtra("day",0);
-        int hour =intenttmp.getIntExtra("hour",0);
-        int min=intenttmp.getIntExtra("min",0);
-        Bitmap photo=intenttmp.getParcelableExtra("photobitmap");
+        position=intenttmp.getIntExtra("position",0);
+        title=intenttmp.getStringExtra("title");
+        memo =intenttmp.getStringExtra("memo");
+        year=intenttmp.getIntExtra("year",0);
+        month=intenttmp.getIntExtra("month",0);
+        day=intenttmp.getIntExtra("day",0);
+        hour =intenttmp.getIntExtra("hour",0);
+        min=intenttmp.getIntExtra("min",0);
+        loop=intenttmp.getIntExtra("loop",0);
+        byte[] bytes=intenttmp.getByteArrayExtra("photobitmap");
+        bitmapbg=MainActivity.Bytes2Bitmap(bytes);
 
         //Button backbtn=(Button)findViewById(R.id.complete_info_backtomain_button);
        // Button tothetopbtn=(Button)findViewById(R.id.complete_info_tothemaintop_button);
@@ -71,8 +92,8 @@ public class CompleteInfo extends AppCompatActivity {
             default:
         }
         endtimetxt.setText(completeinfo_calendar.get(Calendar.YEAR)+"-"+monthtmp+"-"+completeinfo_calendar.get(Calendar.DAY_OF_MONTH)+" "+
-                completeinfo_calendar.get(Calendar.HOUR)+":"+completeinfo_calendar.get(Calendar.MINUTE)+" "+dayofweek);
-        imageViewbg.setBackgroundColor(Color.rgb(165, 165, 165));
+                completeinfo_calendar.get(Calendar.HOUR)+":"+completeinfo_calendar.get(Calendar.MINUTE)+" "+dayofweek+"\n  "+"------ Every "+loop+" Days ------");
+        imageViewbg.setImageBitmap(bitmapbg);
 
         CountDownTimer completeinfo_timer;
          completeinfo_timer=new CountDownTimer(getremaintime(),1000) {
@@ -108,7 +129,8 @@ public class CompleteInfo extends AppCompatActivity {
 
             }
         };
-        completeinfo_timer.start();
+        completeinfo_timer.start();//某些场合记得要删除它哟
+
 
 
 
@@ -133,6 +155,7 @@ public class CompleteInfo extends AppCompatActivity {
                 Intent backtomain=new Intent(this,MainActivity.class);
                 startActivity(backtomain);
                 this.finish();
+                break;
             }
             case R.id.complete_info_tothemaintop_button:
             {
@@ -144,6 +167,29 @@ public class CompleteInfo extends AppCompatActivity {
             }
             case R.id.complete_info_delete_button:
             {
+                AlertDialog.Builder builder  = new AlertDialog.Builder(this);
+                builder.setTitle("Are you sure ?" ) ;
+                builder.setIcon(R.drawable.skull);
+                builder.setMessage("this can not be undone !" ) ;
+                builder.setPositiveButton("just do it !" ,  new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Intent intentswitch=new Intent(CreateTimer.this, MainActivity.class);
+                        //startActivity(intentswitch);
+                        Intent deleteintent=new Intent();
+                        deleteintent.putExtra("deleteposition",position);
+                        setResult(101,deleteintent);
+                        CompleteInfo.this.finish();
+                    }
+                });
+                builder.setNegativeButton("misclicked !",new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(CompleteInfo.this,"that was close !",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.show();
+                break;
 
             }
             case R.id.complete_info_remain_time://模仿点击剩余时间会改变计时方式
@@ -160,6 +206,27 @@ public class CompleteInfo extends AppCompatActivity {
                 {
                     switchremaintimeshow = 0;
                 }
+                break;
+            }
+            case R.id.complete_info_edit_button:
+            {
+                Intent intentedit=new Intent(CompleteInfo.this,EditTimer.class);
+
+                intentedit.putExtra("Title",title);
+                intentedit.putExtra("Memo",memo);
+                intentedit.putExtra("Year",year);
+                intentedit.putExtra("Month",month);
+                intentedit.putExtra("Day",day);
+                intentedit.putExtra("Hour",hour);
+                intentedit.putExtra("loop",loop);
+                intentedit.putExtra("Minute",min);
+                ByteArrayOutputStream output=new ByteArrayOutputStream();
+                bitmapbg=Bitmap.createScaledBitmap(bitmapbg,415,415,true);
+                bitmapbg.compress(Bitmap.CompressFormat.PNG,100,output);
+                byte[] bytepic=output.toByteArray();
+                intentedit.putExtra("bitmapbyte",bytepic);
+                startActivityForResult(intentedit,159);//////////////////////////////////////
+                break;
             }
 
         }

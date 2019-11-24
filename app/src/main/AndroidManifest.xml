@@ -13,9 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CompleteInfo">
-
-        </activity>
+        <activity android:name=".EditTimer"></activity>
+        <activity android:name=".CompleteInfo"></activity>
         <activity android:name=".CreateTimer" />
         <activity
             android:name=".MainActivity"

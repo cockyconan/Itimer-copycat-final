@@ -1,6 +1,7 @@
 package student.jnu.cockyconan.itimer_copycat.ui.home;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
@@ -22,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,13 +73,21 @@ public class HomeFragment extends Fragment {
                 complete_info_intent.putExtra("position",position);
                 complete_info_intent.putExtra("title",AllTimers.get(position).getTitle());
                 complete_info_intent.putExtra("memo",AllTimers.get(position).getNote());
+                complete_info_intent.putExtra("loop",AllTimers.get(position).getLoop());
                 complete_info_intent.putExtra("year",AllTimers.get(position).getEndCalendar().get(Calendar.YEAR));
                 complete_info_intent.putExtra("month",AllTimers.get(position).getEndCalendar().get(Calendar.MONTH));
                 complete_info_intent.putExtra("day",AllTimers.get(position).getEndCalendar().get(Calendar.DAY_OF_MONTH));
                 complete_info_intent.putExtra("hour",AllTimers.get(position).getEndCalendar().get(Calendar.HOUR));
                 complete_info_intent.putExtra("minute",AllTimers.get(position).getEndCalendar().get(Calendar.MINUTE));
                 //不知道可不可以直接传输bitmap
-                //complete_info_intent.putExtra("photobitmap",AllTimers.get(position).getPhotobitmap());
+                ByteArrayOutputStream output=new ByteArrayOutputStream();
+                Bitmap bm= Bitmap.createScaledBitmap(AllTimers.get(position).getPhotobitmap(),425,620,true);
+                bm.compress(Bitmap.CompressFormat.PNG,100,output);
+                byte[] bytepic = new byte[0];
+                bytepic=output.toByteArray();
+
+                complete_info_intent.putExtra("photobitmap",bytepic);
+
                 //先尝试一下
 
 
@@ -87,6 +97,25 @@ public class HomeFragment extends Fragment {
         });
 
         return root;
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode)
+        {
+            case 111:
+                if(resultCode==101){
+                    int position=data.getIntExtra("position",0);//这里肯定在这个程序中只是接收，因为editmainactivity已经完成操作了
+
+                    ArrayList<MyTimer> AllTimers= MainActivity.getAllTimers();
+                    AllTimers.remove(position);
+                    myTimerArrayAdapter.notifyDataSetChanged();
+
+
+                    break;
+                }
+
+
+        }
     }
 
 
