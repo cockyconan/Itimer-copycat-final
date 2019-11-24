@@ -106,8 +106,8 @@
                     android:id="@+id/create_timer_save_button"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
-                    android:layout_marginStart="368dp"
-                    android:layout_marginLeft="368dp"
+                    android:layout_marginStart="372dp"
+                    android:layout_marginLeft="372dp"
                     android:background="@drawable/create_timer_click_effect"
                     android:foreground="@android:drawable/ic_menu_add"
                     android:onClick="onClick"
@@ -154,7 +154,7 @@
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="331dp"
                     android:layout_marginRight="331dp"
-                    app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+                    app:srcCompat="@android:drawable/ic_menu_recent_history" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -285,7 +285,7 @@
                     android:layout_marginBottom="0dp"
                     android:outlineAmbientShadowColor="#929191"
                     android:outlineSpotShadowColor="#9B9191"
-                    app:srcCompat="@drawable/ic_menu_gallery" />
+                    app:srcCompat="@android:drawable/ic_menu_gallery" />
 
                 <TextView
                     android:id="@+id/textView8"

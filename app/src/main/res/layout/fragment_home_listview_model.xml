@@ -3,30 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/dialog_bg"
     android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/content_mian_listview_model_photo"
         android:layout_width="117dp"
-        android:layout_height="120dp"
+        android:layout_height="140dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="0dp"
+        android:background="@drawable/dialog_bg"
         tools:srcCompat="@tools:sample/backgrounds/scenic[1]" />
 
     <TextView
         android:id="@+id/content_main_listview_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="174dp"
+        android:layout_height="30dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="131dp"
-        android:layout_marginLeft="131dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="10dp"
         android:text="TextView"
         android:textColor="@android:color/holo_orange_dark"
         android:textSize="24sp"
@@ -34,8 +36,8 @@
 
     <TextView
         android:id="@+id/content_main_listview_enddate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="175dp"
+        android:layout_height="30dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -44,13 +46,13 @@
         android:layout_marginTop="53dp"
         android:text="TextView"
         android:textColor="#FFC107"
-        android:textSize="20sp"
+        android:textSize="14sp"
         app:fontFamily="monospace" />
 
     <TextView
         android:id="@+id/content_main_listview_memo"
-        android:layout_width="253dp"
-        android:layout_height="wrap_content"
+        android:layout_width="174dp"
+        android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -65,29 +67,30 @@
     <TextView
         android:id="@+id/content_main_listview_emergencycolor"
         android:layout_width="wrap_content"
-        android:layout_height="128dp"
+        android:layout_height="140dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="357dp"
-        android:layout_marginLeft="357dp"
+        android:layout_marginStart="360dp"
+        android:layout_marginLeft="360dp"
         android:layout_marginTop="0dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
+
         android:background="#FF0000" />
 
     <TextView
         android:id="@+id/content_main_listview_remaintime"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="3dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="36dp"
         android:text="356 days to go"
         android:textColor="#F7F7F7"
         android:textSize="18sp" />
