@@ -1,6 +1,7 @@
 package student.jnu.cockyconan.itimer_copycat;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.CountDownTimer;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,7 +37,7 @@ public class MyTimerArrayAdapter extends ArrayAdapter<MyTimer> {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, @Nullable final View convertView, @NonNull ViewGroup parent) {
         LayoutInflater mInflater=LayoutInflater.from(this.getContext());
         View item = mInflater.inflate(this.resourceid,null);
 
@@ -46,13 +48,13 @@ public class MyTimerArrayAdapter extends ArrayAdapter<MyTimer> {
         final TextView emergencycolor =(TextView)item.findViewById(R.id.content_main_listview_emergencycolor);
         final TextView remaintime=(TextView) item.findViewById(R.id.content_main_listview_remaintime);
 
-        MyTimer myTimer=this.getItem(position);
+        final MyTimer myTimer=this.getItem(position);
 
-        photo.setImageBitmap(myTimer.getPhotobitmap());
+        photo.setImageBitmap(Bitmap.createScaledBitmap(myTimer.getPhotobitmap(), 415, 415, true));
         title.setText(myTimer.getTitle());
         android.icu.util.Calendar calendartmp=myTimer.getEndCalendar();
         int montmp=calendartmp.get(Calendar.MONTH)+1;
-        enddate.setText(""+calendartmp.get(Calendar.YEAR)+" - "+montmp+" - " +calendartmp.get(Calendar.DAY_OF_MONTH)+"  "+calendartmp.get(Calendar.HOUR)+":"+calendartmp.get(Calendar.MINUTE));
+        enddate.setText(""+calendartmp.get(Calendar.YEAR)+" - "+montmp+" - " +calendartmp.get(Calendar.DAY_OF_MONTH)+"  "+calendartmp.get(Calendar.HOUR_OF_DAY)+":"+calendartmp.get(Calendar.MINUTE));
 
         memo.setText(myTimer.getNote());
 
@@ -60,7 +62,12 @@ public class MyTimerArrayAdapter extends ArrayAdapter<MyTimer> {
         countDownTimer=new CountDownTimer(myTimer.getremaintime(), 1000){
             @Override
             public void onTick(long remaintime_millissec) {
-                if((remaintime_millissec/(1000*60*60))<=1) {
+                if((remaintime_millissec/(1000))<=60)
+                {
+                    emergencycolor.setBackgroundColor(Color.rgb(255, 0, 0));
+                    remaintime.setText(remaintime_millissec/(1000)+"secs to go");
+                }
+                else if((remaintime_millissec/(1000*60*60))<=1) {
                     emergencycolor.setBackgroundColor(Color.rgb(255, 0, 0));
                     remaintime.setText(remaintime_millissec/(1000*60)+"mins to go");
                 }
@@ -88,7 +95,27 @@ public class MyTimerArrayAdapter extends ArrayAdapter<MyTimer> {
 
             @Override
             public void onFinish() {
+                emergencycolor.setBackgroundColor(Color.BLACK);
+                remaintime.setText("TIMER'S UP");
+                if(myTimer.getLoop()!=0)
+                {
+                    myTimer.getEndCalendar().add(android.icu.util.Calendar.DATE,myTimer.getLoop());
+                    CountDownTimer countDownTimer;
+                    countDownTimer= new CountDownTimer(3000, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            remaintime.setText("Starting Loop !");
+                        }
 
+                        @Override
+                        public void onFinish() {
+                            notifyDataSetChanged();
+                        }
+                    };
+                    countDownTimer.start();
+
+
+                }
             }
         };
         countDownTimer.start();

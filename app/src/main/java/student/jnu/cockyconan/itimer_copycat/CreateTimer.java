@@ -112,17 +112,28 @@ public class CreateTimer extends AppCompatActivity {
                             Bitmap bm=null;
                             ContentResolver resolver=getContentResolver();
                             byte[] bytepic = new byte[0];
-                            try{
-                                Uri originURI=returnTimer.getPhotoUri();
-                                bm=MediaStore.Images.Media.getBitmap(resolver,originURI);
-                                ByteArrayOutputStream output=new ByteArrayOutputStream();
-                                bm=Bitmap.createScaledBitmap(bm,415,415,true);
-                                bm.compress(Bitmap.CompressFormat.PNG,100,output);
-                                bytepic=output.toByteArray();
+                            if(setphotoalready) {
+                                try {
+                                    Uri originURI = returnTimer.getPhotoUri();
+                                    bm = MediaStore.Images.Media.getBitmap(resolver, originURI);
+                                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+                                    bm = Bitmap.createScaledBitmap(bm, 415, 415, true);
+                                    bm.compress(Bitmap.CompressFormat.PNG, 100, output);
+                                    bytepic = output.toByteArray();
 
+                                } catch (IOException e) {
 
-                            }catch(IOException e){
-                                
+                                }
+                            }
+                            else
+                            {
+                                Drawable drawable = getResources().getDrawable(R.drawable.timg);
+                                BitmapDrawable bmtmp = (BitmapDrawable) drawable;
+                                bm=bmtmp.getBitmap();
+                                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                                bm = Bitmap.createScaledBitmap(bm, 415, 415, true);
+                                bm.compress(Bitmap.CompressFormat.PNG, 100, output);
+                                bytepic = output.toByteArray();
                             }
                             Intent intentfinishadd=new Intent();
 
@@ -133,7 +144,7 @@ public class CreateTimer extends AppCompatActivity {
                             intentfinishadd.putExtra("createtimer_year",returnTimer.getEndCalendar().get(Calendar.YEAR));
                             intentfinishadd.putExtra("createtimer_month",returnTimer.getEndCalendar().get(Calendar.MONTH));
                             intentfinishadd.putExtra("createtimer_day",returnTimer.getEndCalendar().get(Calendar.DAY_OF_MONTH));
-                            intentfinishadd.putExtra("createtimer_hour",returnTimer.getEndCalendar().get(Calendar.HOUR));
+                            intentfinishadd.putExtra("createtimer_hour",hourtmp);
                             intentfinishadd.putExtra("createtimer_min",returnTimer.getEndCalendar().get(Calendar.MINUTE));
                             setResult(RESULT_OK,intentfinishadd);
                             CreateTimer.this.finish();
@@ -155,16 +166,28 @@ public class CreateTimer extends AppCompatActivity {
                             Bitmap bm=null;
                             ContentResolver resolver=getContentResolver();
                             byte[] bytepic = new byte[0];
-                            try{
-                                Uri originURI=returnTimer.getPhotoUri();
-                                bm=MediaStore.Images.Media.getBitmap(resolver,originURI);
-                                ByteArrayOutputStream output=new ByteArrayOutputStream();
-                                bm=Bitmap.createScaledBitmap(bm,415,415,true);
-                                bm.compress(Bitmap.CompressFormat.PNG,100,output);
-                                bytepic=output.toByteArray();
+                            if(setphotoalready) {
+                                try {
+                                    Uri originURI = returnTimer.getPhotoUri();
+                                    bm = MediaStore.Images.Media.getBitmap(resolver, originURI);
+                                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+                                    bm = Bitmap.createScaledBitmap(bm, 415, 620, true);
+                                    bm.compress(Bitmap.CompressFormat.PNG, 100, output);
+                                    bytepic = output.toByteArray();
 
-                            }catch(IOException e){
+                                } catch (IOException e) {
 
+                                }
+                            }
+                            else
+                            {
+                                Drawable drawable = getResources().getDrawable(R.drawable.timg);
+                                BitmapDrawable bmtmp = (BitmapDrawable) drawable;
+                                bm=bmtmp.getBitmap();
+                                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                                bm = Bitmap.createScaledBitmap(bm, 415, 620, true);
+                                bm.compress(Bitmap.CompressFormat.PNG, 100, output);
+                                bytepic = output.toByteArray();
                             }
                             Intent intentfinishadd=new Intent();
 
@@ -175,7 +198,7 @@ public class CreateTimer extends AppCompatActivity {
                             intentfinishadd.putExtra("createtimer_year",returnTimer.getEndCalendar().get(Calendar.YEAR));
                             intentfinishadd.putExtra("createtimer_month",returnTimer.getEndCalendar().get(Calendar.MONTH));
                             intentfinishadd.putExtra("createtimer_day",returnTimer.getEndCalendar().get(Calendar.DAY_OF_MONTH));
-                            intentfinishadd.putExtra("createtimer_hour",returnTimer.getEndCalendar().get(Calendar.HOUR));
+                            intentfinishadd.putExtra("createtimer_hour",hourtmp);
                             intentfinishadd.putExtra("createtimer_min",returnTimer.getEndCalendar().get(Calendar.MINUTE));
                             setResult(RESULT_OK,intentfinishadd);
                             CreateTimer.this.finish();
@@ -252,7 +275,7 @@ public class CreateTimer extends AppCompatActivity {
 
                 //设置photouri，photouri应该在初始时设置为null
                 returnTimer.setPhotoUri(uri);
-
+                setphotoalready=true;
                 photo.setImageURI(uri);
 
             }

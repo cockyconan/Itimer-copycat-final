@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import static android.icu.util.Calendar.getInstance;
@@ -27,7 +28,9 @@ import static android.icu.util.Calendar.getInstance;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class CompleteInfo extends AppCompatActivity {
 
-    private Calendar completeinfo_calendar=getInstance(Locale.CHINA);
+    public static final int EDIT_APPLY_CODE = 159;
+    private static final int EDIT_CHANGE_CODE =197 ;
+    private static Calendar completeinfo_calendar=getInstance(Locale.CHINA);
 
     private int switchremaintimeshow=0;
 
@@ -43,12 +46,29 @@ public class CompleteInfo extends AppCompatActivity {
     private int loop;
     private Bitmap bitmapbg;
 
+    private TextView titletxt;
+    private  TextView memotxt;
+    private  TextView endtimetxt;
+    private TextView remaintimetxt;
+    private ImageView imageViewbg;
+
+    private  CountDownTimer completeinfo_timer;
+
+
+    private boolean isitchange=false;//判断是否用edit界面对其做出修改
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_info);
+        titletxt=(TextView)findViewById(R.id.complete_info_Title);
+        memotxt=(TextView)findViewById(R.id.complete_info_mymemo);
+        endtimetxt=(TextView)findViewById(R.id.complete_info_endtime);
+        remaintimetxt=(TextView)findViewById(R.id.complete_info_remain_time);
+        imageViewbg=(ImageView)findViewById(R.id.complete_info_bg);
 
         Intent intenttmp=getIntent();
         position=intenttmp.getIntExtra("position",0);
@@ -58,7 +78,7 @@ public class CompleteInfo extends AppCompatActivity {
         month=intenttmp.getIntExtra("month",0);
         day=intenttmp.getIntExtra("day",0);
         hour =intenttmp.getIntExtra("hour",0);
-        min=intenttmp.getIntExtra("min",0);
+        min=intenttmp.getIntExtra("minute",0);
         loop=intenttmp.getIntExtra("loop",0);
         byte[] bytes=intenttmp.getByteArrayExtra("photobitmap");
         bitmapbg=MainActivity.Bytes2Bitmap(bytes);
@@ -68,11 +88,11 @@ public class CompleteInfo extends AppCompatActivity {
         //Button showbtn=(Button)findViewById(R.id.complete_info_show_button);
        // Button deletebtn=(Button)findViewById(R.id.complete_info_delete_button);
        // Button
-        TextView titletxt=(TextView)findViewById(R.id.complete_info_Title);
-        TextView memotxt=(TextView)findViewById(R.id.complete_info_mymemo);
-        TextView endtimetxt=(TextView)findViewById(R.id.complete_info_endtime);
-        final TextView remaintimetxt=(TextView)findViewById(R.id.complete_info_remain_time);
-        ImageView imageViewbg=(ImageView)findViewById(R.id.complete_info_bg);
+
+
+
+
+
 
         completeinfo_calendar.set(year,month,day,hour,min,0);//这里的零必须设置
 
@@ -91,11 +111,15 @@ public class CompleteInfo extends AppCompatActivity {
             case 7:dayofweek="Saturday";break;
             default:
         }
+        if(loop==0)
         endtimetxt.setText(completeinfo_calendar.get(Calendar.YEAR)+"-"+monthtmp+"-"+completeinfo_calendar.get(Calendar.DAY_OF_MONTH)+" "+
-                completeinfo_calendar.get(Calendar.HOUR)+":"+completeinfo_calendar.get(Calendar.MINUTE)+" "+dayofweek+"\n  "+"------ Every "+loop+" Days ------");
+                completeinfo_calendar.get(Calendar.HOUR_OF_DAY)+":"+completeinfo_calendar.get(Calendar.MINUTE)+" "+dayofweek+"\n  "+"  ------ No Loop ------");
+        else
+            endtimetxt.setText(completeinfo_calendar.get(Calendar.YEAR)+"-"+monthtmp+"-"+completeinfo_calendar.get(Calendar.DAY_OF_MONTH)+" "+
+                    completeinfo_calendar.get(Calendar.HOUR_OF_DAY)+":"+completeinfo_calendar.get(Calendar.MINUTE)+" "+dayofweek+"\n  "+"------ Every "+loop+" Days ------");
         imageViewbg.setImageBitmap(bitmapbg);
 
-        CountDownTimer completeinfo_timer;
+
          completeinfo_timer=new CountDownTimer(getremaintime(),1000) {
             @Override
             public void onTick(long remaintime_millissec) {
@@ -103,7 +127,7 @@ public class CompleteInfo extends AppCompatActivity {
                 long hours=(long)(remaintime_millissec%(1000*60*60*24))/(1000*60*60);
                 long mins=(long)(remaintime_millissec%(1000*60*60))/(1000*60);
                 long second=(long)(remaintime_millissec%(1000*60)/1000);
-                if(switchremaintimeshow==0) {
+                if(switchremaintimeshow==0) {//改变剩余时间显示格式
                     remaintimetxt.setText(days+" Days "+hours+" Hours "+mins+" Mins "+second+" Seconds ");
                 }
                 else if(switchremaintimeshow==1)
@@ -126,7 +150,32 @@ public class CompleteInfo extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                if(loop!=0)
+                {
+                    ArrayList<MyTimer> myTimerstmp=MainActivity.getAllTimers();
 
+                    myTimerstmp.get(position).getEndCalendar().add(Calendar.DATE,loop);
+                    CountDownTimer tobenewtimer= new CountDownTimer(5000, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            if(millisUntilFinished/1000>2)
+                                remaintimetxt.setText(millisUntilFinished/1000-2+" seconds to start the loop!!!");
+                            else
+                            {
+                                remaintimetxt.setText("Starting the loop!");
+                            }
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            finish();
+                        }
+                    };
+                    tobenewtimer.start();
+                }
+                else {
+                    remaintimetxt.setText("Timer's Up");
+                }
             }
         };
         completeinfo_timer.start();//某些场合记得要删除它哟
@@ -141,6 +190,9 @@ public class CompleteInfo extends AppCompatActivity {
 
 
     }
+
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     private long getremaintime()
     {
@@ -221,13 +273,135 @@ public class CompleteInfo extends AppCompatActivity {
                 intentedit.putExtra("loop",loop);
                 intentedit.putExtra("Minute",min);
                 ByteArrayOutputStream output=new ByteArrayOutputStream();
-                bitmapbg=Bitmap.createScaledBitmap(bitmapbg,415,415,true);
+                bitmapbg=Bitmap.createScaledBitmap(bitmapbg,415,620,true);
                 bitmapbg.compress(Bitmap.CompressFormat.PNG,100,output);
                 byte[] bytepic=output.toByteArray();
                 intentedit.putExtra("bitmapbyte",bytepic);
-                startActivityForResult(intentedit,159);//////////////////////////////////////
+                startActivityForResult(intentedit, EDIT_APPLY_CODE);//////////////////////////////////////
                 break;
             }
+
+        }
+    }
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode)
+        {
+            case EDIT_APPLY_CODE:
+                if(resultCode==EDIT_CHANGE_CODE){
+                    year=data.getIntExtra("yearchange",0);
+                    month=data.getIntExtra("monthchange",0);
+                    day=data.getIntExtra("daychange",0);
+                    hour=data.getIntExtra("hourchange",0);
+                    min=data.getIntExtra("minutechange",0);
+                    loop=data.getIntExtra("loopchange",0);
+                    title=data.getStringExtra("titlechange");
+                    memo=data.getStringExtra("memochange");
+                    byte[] bytepic=data.getByteArrayExtra("bitmapbytechange");
+                    bitmapbg=MainActivity.Bytes2Bitmap(bytepic);
+
+
+                    completeinfo_timer.cancel();
+
+                    completeinfo_calendar.set(year,month,day,hour,min,0);
+                    titletxt.setText(title);
+                    memotxt.setText(memo);
+                    int monthtmp=completeinfo_calendar.get(Calendar.MONTH)+1;
+                    String dayofweek= null;
+                    switch (completeinfo_calendar.get(Calendar.DAY_OF_WEEK))
+                    {
+                        case 1:dayofweek="Sunday";break;
+                        case 2:dayofweek="Monday";break;
+                        case 3:dayofweek="Tuesday";break;
+                        case 4:dayofweek="Wednesday";break;
+                        case 5:dayofweek="Thursday";break;
+                        case 6:dayofweek="Friday";break;
+                        case 7:dayofweek="Saturday";break;
+                        default:
+                    }
+                    if(loop==0)
+                        endtimetxt.setText(completeinfo_calendar.get(Calendar.YEAR)+"-"+monthtmp+"-"+completeinfo_calendar.get(Calendar.DAY_OF_MONTH)+" "+
+                                completeinfo_calendar.get(Calendar.HOUR_OF_DAY)+":"+completeinfo_calendar.get(Calendar.MINUTE)+" "+dayofweek+"\n  "+"  ------ No Loop ------");
+                    else
+                        endtimetxt.setText(completeinfo_calendar.get(Calendar.YEAR)+"-"+monthtmp+"-"+completeinfo_calendar.get(Calendar.DAY_OF_MONTH)+" "+
+                                completeinfo_calendar.get(Calendar.HOUR_OF_DAY)+":"+completeinfo_calendar.get(Calendar.MINUTE)+" "+dayofweek+"\n  "+"------ Every "+loop+" Days ------");
+                    imageViewbg.setImageBitmap(bitmapbg);
+
+                    ArrayList<MyTimer> myTimerstmp=MainActivity.getAllTimers();
+                    myTimerstmp.get(position).setPhotobitmap(bitmapbg);
+
+                    myTimerstmp.get(position).setEndCalendar(year,month,day,hour,min);
+                    myTimerstmp.get(position).setLoop(loop);
+                    myTimerstmp.get(position).setTitle(title);
+                    myTimerstmp.get(position).setNote(memo);
+                    completeinfo_timer= new CountDownTimer(getremaintime(),1000) {
+                        @Override
+                        public void onTick(long remaintime_millissec) {
+                            long days=(long)remaintime_millissec/(1000*60*60*24);
+                            long hours=(long)(remaintime_millissec%(1000*60*60*24))/(1000*60*60);
+                            long mins=(long)(remaintime_millissec%(1000*60*60))/(1000*60);
+                            long second=(long)(remaintime_millissec%(1000*60)/1000);
+                            if(switchremaintimeshow==0) {//改变剩余时间显示格式
+                                remaintimetxt.setText(days+" Days "+hours+" Hours "+mins+" Mins "+second+" Seconds ");
+                            }
+                            else if(switchremaintimeshow==1)
+                            {
+                                hours+=days*24;
+                                remaintimetxt.setText(hours+" Hours "+mins+" Mins "+second+" Seconds ");
+                            }
+                            else if(switchremaintimeshow==2)
+                            {
+                                mins=mins+days*24*60+hours*60;
+                                remaintimetxt.setText(mins+" Mins "+second+" Seconds ");
+                            }
+                            else if(switchremaintimeshow==3)
+                            {
+                                second=second+mins*60+days*24*60*60+hours*60*60;
+                                remaintimetxt.setText(second+" Seconds ");
+                            }
+                        }
+
+
+                        @Override
+                        public void onFinish() {
+                            if(loop!=0)
+                            {
+                                ArrayList<MyTimer> myTimerstmp=MainActivity.getAllTimers();
+
+                                myTimerstmp.get(position).getEndCalendar().add(Calendar.DATE,loop);
+                                CountDownTimer tobenewtimer= new CountDownTimer(5000, 1000) {
+                                    @Override
+                                    public void onTick(long millisUntilFinished) {
+                                        if(millisUntilFinished/1000>2)
+                                        remaintimetxt.setText(millisUntilFinished/1000-2+" seconds to start the loop!!!");
+                                        else
+                                        {
+                                            remaintimetxt.setText("Starting the loop!");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+                                        finish();
+
+                                    }
+                                };
+                                tobenewtimer.start();
+                            }
+                            else {
+                                remaintimetxt.setText("Timer's Up");
+                            }
+
+                        }
+
+                    };
+                    completeinfo_timer.start();
+
+
+
+                    break;
+                }
+
 
         }
     }

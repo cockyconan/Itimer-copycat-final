@@ -1,7 +1,6 @@
 package student.jnu.cockyconan.itimer_copycat;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -11,7 +10,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -35,12 +33,12 @@ import java.io.IOException;
 import java.util.Locale;
 
 import static android.widget.Toast.LENGTH_SHORT;
-import static student.jnu.cockyconan.itimer_copycat.CreateTimer.showDatePickerDialog;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class EditTimer extends AppCompatActivity {
 
     private static final int PICK_PHOTO = 111;
+    public static final int EDIT_CHANGE_CODE = 197;
     private static int year;
     private int month;
     private int day;
@@ -55,7 +53,7 @@ public class EditTimer extends AppCompatActivity {
 
     private Calendar calendar= Calendar.getInstance(Locale.CHINA);
     public static Calendar RELATIVEcalendar= Calendar.getInstance(Locale.CHINA);//用于保存相对时间计算器中作为基准的日期
-    private Uri uritmp;
+    private Uri uriupdate =null;
     public static MyDialog mMyDialog;
     private View setloop_view;
     private View selectrelativetime_view;
@@ -94,8 +92,10 @@ public class EditTimer extends AppCompatActivity {
         ImageView photo=findViewById(R.id.create_timer_picture);
         photo.setImageBitmap(bitmapbg);
         TextView looptxt=findViewById(R.id.create_timer_repeat_show);
+        if(loopday!=0)
         looptxt.setText("You set cycle time : every "+loopday+" days~~~");
-
+        else
+            looptxt.setText("You have not set loop yet~~~");
 
 
         //////////////////////////////////////////////
@@ -171,19 +171,35 @@ public class EditTimer extends AppCompatActivity {
 
                             Bitmap bm=null;
                             ContentResolver resolver=getContentResolver();
+                            if(uriupdate !=null) {//更新了文件才要这样
+                                try {
 
-                            try{
-                                Uri originURI=uritmp;
-                                bm=MediaStore.Images.Media.getBitmap(resolver,originURI);
-                                ByteArrayOutputStream output=new ByteArrayOutputStream();
-                                bm=Bitmap.createScaledBitmap(bm,415,415,true);
-                                bm.compress(Bitmap.CompressFormat.PNG,100,output);
-                                returnbitmapbyte=output.toByteArray();
-                                //重新设置图片传回的字节串
-                            }catch(IOException e){
+                                    Uri originURI = uriupdate;
+                                    bm = MediaStore.Images.Media.getBitmap(resolver, originURI);
+                                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+                                    bm = Bitmap.createScaledBitmap(bm, 415, 620, true);
+                                    bm.compress(Bitmap.CompressFormat.PNG, 100, output);
+                                    returnbitmapbyte = output.toByteArray();
+                                    //重新设置图片传回的字节串
+                                } catch (IOException e) {
 
+                                }
                             }
-                            Intent intentfinishadd=new Intent();
+                            Intent intentfinishchange=new Intent();
+                            intentfinishchange.putExtra("yearchange",year);
+                            intentfinishchange.putExtra("monthchange",month);
+                            intentfinishchange.putExtra("daychange",day);
+                            intentfinishchange.putExtra("hourchange",hour);
+                            intentfinishchange.putExtra("minutechange",minute);
+                            intentfinishchange.putExtra("loopchange",loopday);
+                            intentfinishchange.putExtra("titlechange",title);
+                            intentfinishchange.putExtra("memochange",memo);
+                            intentfinishchange.putExtra("bitmapbytechange",returnbitmapbyte);
+                            setResult(EDIT_CHANGE_CODE,intentfinishchange);
+
+
+                            finish();
+
 
 /*
                             //intentfinishadd.putExtra("CreateTimer", returnTimer);
@@ -242,7 +258,7 @@ public class EditTimer extends AppCompatActivity {
                 ImageView photo=findViewById(R.id.create_timer_picture);
 
                 //设置photouri，photouri应该在初始时设置为null
-                uritmp=uri;
+                uriupdate =uri;
 
                 photo.setImageURI(uri);
 

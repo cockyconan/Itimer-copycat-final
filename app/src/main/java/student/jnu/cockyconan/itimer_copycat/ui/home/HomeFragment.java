@@ -77,7 +77,8 @@ public class HomeFragment extends Fragment {
                 complete_info_intent.putExtra("year",AllTimers.get(position).getEndCalendar().get(Calendar.YEAR));
                 complete_info_intent.putExtra("month",AllTimers.get(position).getEndCalendar().get(Calendar.MONTH));
                 complete_info_intent.putExtra("day",AllTimers.get(position).getEndCalendar().get(Calendar.DAY_OF_MONTH));
-                complete_info_intent.putExtra("hour",AllTimers.get(position).getEndCalendar().get(Calendar.HOUR));
+                int hourtmp=AllTimers.get(position).getEndCalendar().get(Calendar.HOUR_OF_DAY);
+                complete_info_intent.putExtra("hour",hourtmp);
                 complete_info_intent.putExtra("minute",AllTimers.get(position).getEndCalendar().get(Calendar.MINUTE));
                 //不知道可不可以直接传输bitmap
                 ByteArrayOutputStream output=new ByteArrayOutputStream();
