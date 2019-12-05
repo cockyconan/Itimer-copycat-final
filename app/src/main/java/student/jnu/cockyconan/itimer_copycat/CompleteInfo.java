@@ -334,6 +334,42 @@ public class CompleteInfo extends AppCompatActivity {
                     myTimerstmp.get(position).setLoop(loop);
                     myTimerstmp.get(position).setTitle(title);
                     myTimerstmp.get(position).setNote(memo);
+
+
+
+
+
+
+
+
+
+                    FileDataSource fileDataSource=new FileDataSource(this);
+                    fileDataSource.save(myTimerstmp);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     completeinfo_timer= new CountDownTimer(getremaintime(),1000) {
                         @Override
                         public void onTick(long remaintime_millissec) {
