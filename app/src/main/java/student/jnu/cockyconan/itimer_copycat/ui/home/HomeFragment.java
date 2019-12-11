@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import student.jnu.cockyconan.itimer_copycat.CompleteInfo;
+import student.jnu.cockyconan.itimer_copycat.FileDataSource;
 import student.jnu.cockyconan.itimer_copycat.MainActivity;
 import student.jnu.cockyconan.itimer_copycat.MyTimer;
 import student.jnu.cockyconan.itimer_copycat.MyTimerArrayAdapter;
@@ -99,6 +100,7 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode)
@@ -108,7 +110,10 @@ public class HomeFragment extends Fragment {
                     int position=data.getIntExtra("position",0);//这里肯定在这个程序中只是接收，因为editmainactivity已经完成操作了
 
                     ArrayList<MyTimer> AllTimers= MainActivity.getAllTimers();
+
                     AllTimers.remove(position);
+                    FileDataSource fileDataSource=new FileDataSource(getContext());
+                    fileDataSource.save(AllTimers);
                     myTimerArrayAdapter.notifyDataSetChanged();
 
 

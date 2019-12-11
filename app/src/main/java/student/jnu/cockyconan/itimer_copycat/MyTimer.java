@@ -23,10 +23,7 @@ public class MyTimer implements Parcelable {
         Note = note;
         PhotoUri = Uri.parse(photoUri.toString());
 
-
-
-
-        this.endCalendar = Calendar.getInstance(Locale.CHINA);
+        endCalendar = Calendar.getInstance(Locale.CHINA);
 
         loop=0;//初始为零
     }
@@ -99,6 +96,7 @@ public class MyTimer implements Parcelable {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void setEndCalendar(int year,int month ,int day,int hour,int min) {
+        reintializeCalendar();
         this.endCalendar.set(year, month , day, hour, min,0);
     }
     @RequiresApi(api = Build.VERSION_CODES.N)

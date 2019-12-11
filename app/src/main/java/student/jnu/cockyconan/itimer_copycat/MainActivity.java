@@ -1,8 +1,11 @@
 package student.jnu.cockyconan.itimer_copycat;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,8 +30,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
@@ -39,9 +49,12 @@ import static android.icu.util.Calendar.getInstance;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static RGBcolor aRGB;
     private AppBarConfiguration mAppBarConfiguration;
-
+    private static FileDataSource fileDataSource;
+    public static FloatingActionButton fab;
+    public static RelativeLayout headlayout;
+    public static FileDataSource getsaveinstance() {return fileDataSource;}
     public static ArrayList<MyTimer> getAllTimers() {
         return allTimers;
     }
@@ -59,17 +72,46 @@ public class MainActivity extends AppCompatActivity {
     private static ArrayList<MyTimer> allTimers=new ArrayList<MyTimer>();
 //my stuff end
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    protected void onDestroy() {
+        fileDataSource.save(allTimers);
+        //
+        super.onDestroy();
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fileDataSource=new FileDataSource(this);
+        fileDataSource.load(allTimers);
+
+
+        try {
+            ObjectInputStream inputStream = new ObjectInputStream(this.openFileInput("color.txt"));
+            aRGB = (RGBcolor) inputStream.readObject();
+            inputStream.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //新建界面的切换
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
+        int[][] states = new int[2][];
+        states[0] = new int[]{android.R.attr.state_pressed};
+        states[1] = new int[]{android.R.attr.state_enabled};
+        int[] colors = new int[]{0x00e43d2b,Color.rgb(aRGB.getR(),aRGB.getG(),aRGB.getB()) };
+        MainActivity.fab.setBackgroundTintList(new ColorStateList(states, colors));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,9 +119,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intentswitch,666);
             }
         });
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        headlayout = (RelativeLayout) headerView.findViewById(R.id.header_main);
+
+        if(headlayout!=null)
+        headlayout.setBackgroundColor(Color.rgb(aRGB.getR(),aRGB.getG(),aRGB.getB()));
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        //NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -115,7 +163,9 @@ public class MainActivity extends AppCompatActivity {
             myTimertmp.setPhotobitmap(bitmap);
            // myTimertmp.setPhotobitmap(bitmap);
             allTimers.add(myTimertmp);
+           fileDataSource=new FileDataSource(this);
 
+           fileDataSource.save(allTimers);
            finish();
            startActivity(getIntent());
             //更新页面！！！！！！
@@ -125,11 +175,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
-        else{
-           finish();
-           startActivity(getIntent());
-            Toast.makeText(this, "did not create!", LENGTH_SHORT).show();
-        }
+
+       else {
+           //finish();
+           //startActivity(getIntent());
+           Toast.makeText(this, "did not create!", LENGTH_SHORT).show();
+       }
 
 
 

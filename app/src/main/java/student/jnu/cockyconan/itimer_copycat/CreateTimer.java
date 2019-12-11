@@ -20,6 +20,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.icu.util.Calendar;
@@ -62,7 +63,7 @@ public class CreateTimer extends AppCompatActivity {
     private TextView shortclicktxtDate;
     private TextView longclicktxtDate;
     public static MyDialog mMyDialog;
-    private DateFormat format= DateFormat.getDateTimeInstance();
+
     private Calendar calendar= Calendar.getInstance(Locale.CHINA);
     public static Calendar RELATIVEcalendar= Calendar.getInstance(Locale.CHINA);//用于保存相对时间计算器中作为基准的日期
     public static final int PICK_PHOTO = 102;
@@ -85,6 +86,10 @@ public class CreateTimer extends AppCompatActivity {
         setContentView(R.layout.activity_create_timer);
 
         settimealready=false;//重置
+
+        View background=findViewById(R.id.create_timer_title_note_background);
+        background.setBackgroundColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
+        //set color
 
 
         shortclicktxtDate =(TextView)findViewById(R.id.create_timer_datetimelayout_showdate);
@@ -234,6 +239,8 @@ public class CreateTimer extends AppCompatActivity {
             public boolean onLongClick(View view) {
 
                 selectrelativetime_view = getLayoutInflater().inflate(R.layout.create_timer_relative_time_selector, null);
+                View setRselectorcolor=selectrelativetime_view.findViewById(R.id.tip2);
+                setRselectorcolor.setBackgroundColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
                 mMyDialog  = new MyDialog( view.getContext(), 0, 0, selectrelativetime_view, R.style.DialogTheme);
                 mMyDialog.setCancelable(true);
                 mMyDialog.show();
@@ -316,6 +323,8 @@ public class CreateTimer extends AppCompatActivity {
             {
 
                 setloop_view = getLayoutInflater().inflate(R.layout.create_timer_setloop_dialog, null);
+                View setdialogcolor=setloop_view.findViewById(R.id.tip);
+                setdialogcolor.setBackgroundColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
                 mMyDialog = new MyDialog(this, 0, 0, setloop_view, R.style.DialogTheme);
                 mMyDialog.setCancelable(true);
                 mMyDialog.show();

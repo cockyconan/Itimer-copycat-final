@@ -13,6 +13,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
@@ -63,6 +64,10 @@ public class EditTimer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_timer);
+
+        View background=findViewById(R.id.create_timer_title_note_background);
+        background.setBackgroundColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
+
         View longtap=(View)findViewById(R.id.create_timer_date_time_layout);
 
         Intent recieveintent=getIntent();
@@ -130,6 +135,8 @@ public class EditTimer extends AppCompatActivity {
             public boolean onLongClick(View view) {
 
                 selectrelativetime_view = getLayoutInflater().inflate(R.layout.create_timer_relative_time_selector, null);
+                View setRselectorcolor=selectrelativetime_view.findViewById(R.id.tip2);
+                setRselectorcolor.setBackgroundColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
                 mMyDialog  = new MyDialog( view.getContext(), 0, 0, selectrelativetime_view, R.style.DialogTheme);
                 mMyDialog.setCancelable(true);
                 mMyDialog.show();
@@ -321,6 +328,8 @@ public class EditTimer extends AppCompatActivity {
             {
 
                 setloop_view = getLayoutInflater().inflate(R.layout.create_timer_setloop_dialog, null);
+                View setdialogcolor=setloop_view.findViewById(R.id.tip);
+                setdialogcolor.setBackgroundColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
                 mMyDialog = new MyDialog(this, 0, 0, setloop_view, R.style.DialogTheme);
                 mMyDialog.setCancelable(true);
                 mMyDialog.show();
