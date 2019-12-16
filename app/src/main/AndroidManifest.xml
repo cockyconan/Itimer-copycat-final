@@ -20,9 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditTimer" />
-        <activity android:name=".CompleteInfo" />
-        <activity android:name=".CreateTimer" />
+        <activity android:name=".EditTimer"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".CompleteInfo"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".CreateTimer"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

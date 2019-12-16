@@ -30,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<MyTimer> getAllTimers() {
         return allTimers;
     }
+    public static boolean firsttime=true;
     public static Bitmap Bytes2Bitmap(byte[] b)
     {
             if(b.length!=0){
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             ObjectInputStream inputStream = new ObjectInputStream(this.openFileInput("color.txt"));
             aRGB = (RGBcolor) inputStream.readObject();
             inputStream.close();
+            firsttime=true;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -101,8 +104,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
+        Window window = this.getWindow();
+        window.setStatusBarColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
+        window.setNavigationBarColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         //新建界面的切换
@@ -110,8 +116,18 @@ public class MainActivity extends AppCompatActivity {
         int[][] states = new int[2][];
         states[0] = new int[]{android.R.attr.state_pressed};
         states[1] = new int[]{android.R.attr.state_enabled};
-        int[] colors = new int[]{0x00e43d2b,Color.rgb(aRGB.getR(),aRGB.getG(),aRGB.getB()) };
+        int[] colors;
+        if(firsttime) {
+             colors = new int[]{0x00e43d2b, Color.rgb(aRGB.getR(), aRGB.getG(), aRGB.getB())};
+        }
+        else {
+             colors = new int[]{0x00e43d2b, Color.rgb(0,0,0)};
+             aRGB=new RGBcolor(0,0,0);
+        }
         MainActivity.fab.setBackgroundTintList(new ColorStateList(states, colors));
+
+
+        toolbar.setBackgroundColor(Color.rgb(aRGB.getR(), aRGB.getG(), aRGB.getB()));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

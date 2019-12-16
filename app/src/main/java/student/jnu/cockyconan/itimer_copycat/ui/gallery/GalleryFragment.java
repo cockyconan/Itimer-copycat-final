@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -110,7 +112,12 @@ public class GalleryFragment extends Fragment {
                     MainActivity.aRGB.setR(aRGB.getR());
                     MainActivity.aRGB.setG(aRGB.getG());
                     MainActivity.aRGB.setB(aRGB.getB());
+                    Window window = getActivity().getWindow();
+                    window.setStatusBarColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
+                    window.setNavigationBarColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
+                    Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
 
+                    toolbar.setBackgroundColor(Color.rgb(aRGB.getR(), aRGB.getG(), aRGB.getB()));
                     break;
                 }
 

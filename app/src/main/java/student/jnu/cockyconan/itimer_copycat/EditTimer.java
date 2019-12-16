@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -62,9 +63,12 @@ public class EditTimer extends AppCompatActivity {
     private TextView longclicktxtDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_timer);
-
+        Window window = this.getWindow();
+        window.setStatusBarColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
+        window.setNavigationBarColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
         View background=findViewById(R.id.create_timer_title_note_background);
         background.setBackgroundColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
 
@@ -101,29 +105,6 @@ public class EditTimer extends AppCompatActivity {
         looptxt.setText("You set cycle time : every "+loopday+" days~~~");
         else
             looptxt.setText("You have not set loop yet~~~");
-
-
-        //////////////////////////////////////////////
-        //////////////////////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //loopday=;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -208,50 +189,12 @@ public class EditTimer extends AppCompatActivity {
                             finish();
 
 
-/*
-                            //intentfinishadd.putExtra("CreateTimer", returnTimer);
-                            intentfinishadd.putExtra("bitmap",bytepic);
-                            intentfinishadd.putExtra("createtimer",returnTimer);
-                            intentfinishadd.putExtra("createtimer_year",returnTimer.getEndCalendar().get(Calendar.YEAR));
-                            intentfinishadd.putExtra("createtimer_month",returnTimer.getEndCalendar().get(Calendar.MONTH));
-                            intentfinishadd.putExtra("createtimer_day",returnTimer.getEndCalendar().get(Calendar.DAY_OF_MONTH));
-                            intentfinishadd.putExtra("createtimer_hour",returnTimer.getEndCalendar().get(Calendar.HOUR));
-                            intentfinishadd.putExtra("createtimer_min",returnTimer.getEndCalendar().get(Calendar.MINUTE));
-                            setResult(RESULT_OK,intentfinishadd);
-                            CreateTimer.this.finish();
-*/
-
 
                 }
 
 
 
 
-
-
-
-
-                //需要补充返回的东西
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                //if(setloopalready==true)          no need!!!!!!!!!!!!!!!!!!!!!!
-                //{
-                //returnTimer.setLoop();
-                //}
 
             }
         });

@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -62,8 +64,13 @@ public class CompleteInfo extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_info);
+        Window window = this.getWindow();
+        window.setStatusBarColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
+        window.setNavigationBarColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
+
         titletxt=(TextView)findViewById(R.id.complete_info_Title);
         memotxt=(TextView)findViewById(R.id.complete_info_mymemo);
         endtimetxt=(TextView)findViewById(R.id.complete_info_endtime);
@@ -209,14 +216,7 @@ public class CompleteInfo extends AppCompatActivity {
                 this.finish();
                 break;
             }
-            case R.id.complete_info_tothemaintop_button:
-            {
 
-            }
-            case R.id.complete_info_show_button:
-            {
-
-            }
             case R.id.complete_info_delete_button:
             {
                 AlertDialog.Builder builder  = new AlertDialog.Builder(this);

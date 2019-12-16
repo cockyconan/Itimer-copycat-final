@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
                 complete_info_intent.putExtra("minute",AllTimers.get(position).getEndCalendar().get(Calendar.MINUTE));
                 //不知道可不可以直接传输bitmap
                 ByteArrayOutputStream output=new ByteArrayOutputStream();
-                Bitmap bm= Bitmap.createScaledBitmap(AllTimers.get(position).getPhotobitmap(),425,620,true);
+                Bitmap bm= Bitmap.createScaledBitmap(AllTimers.get(position).getPhotobitmap(),425,680,true);
                 bm.compress(Bitmap.CompressFormat.PNG,100,output);
                 byte[] bytepic = new byte[0];
                 bytepic=output.toByteArray();

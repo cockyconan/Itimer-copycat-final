@@ -33,6 +33,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.text.method.NumberKeyListener;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -83,6 +84,7 @@ public class CreateTimer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_create_timer);
 
         settimealready=false;//重置
@@ -90,7 +92,10 @@ public class CreateTimer extends AppCompatActivity {
         View background=findViewById(R.id.create_timer_title_note_background);
         background.setBackgroundColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
         //set color
-
+        Window window = this.getWindow();
+        window.setStatusBarColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
+        window.setNavigationBarColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
+        window.setNavigationBarDividerColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
 
         shortclicktxtDate =(TextView)findViewById(R.id.create_timer_datetimelayout_showdate);
 

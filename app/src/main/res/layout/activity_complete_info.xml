@@ -45,18 +45,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/complete_info_show_button"
-            android:layout_width="43dp"
-            android:layout_height="43dp"
-            android:layout_marginStart="240dp"
-            android:layout_marginLeft="240dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/create_timer_click_effect"
-            android:foreground="@android:drawable/ic_menu_slideshow"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/complete_info_backtomain_button"
         android:layout_width="43dp"
@@ -70,19 +58,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/complete_info_tothemaintop_button"
-            android:layout_width="43dp"
-            android:layout_height="43dp"
-            android:layout_marginStart="184dp"
-            android:layout_marginLeft="184dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/create_timer_click_effect"
-            android:foreground="@android:drawable/ic_menu_upload_you_tube"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/complete_info_bg" />
-
-        <TextView
+    <TextView
             android:id="@+id/complete_info_Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
