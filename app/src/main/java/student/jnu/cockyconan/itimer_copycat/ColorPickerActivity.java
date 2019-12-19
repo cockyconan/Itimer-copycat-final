@@ -1,11 +1,14 @@
 package student.jnu.cockyconan.itimer_copycat;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,13 +23,17 @@ public class ColorPickerActivity extends AppCompatActivity {
     private int returnB;
     private boolean ifset=false;
     private ColorPickerView colorPickerView;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_color_picker);
         ll = (LinearLayout) findViewById(R.id.ll_color);
         tv = (TextView) findViewById(R.id.tv_info);
-
+        Window window = this.getWindow();
+        window.setStatusBarColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
+        window.setNavigationBarColor(Color.rgb(MainActivity.aRGB.getR(),MainActivity.aRGB.getG(),MainActivity.aRGB.getB()));
         colorPickerView = new ColorPickerView(this);
         ll.addView(colorPickerView);
         colorPickerView.setOnColorBackListener(new ColorPickerView.OnColorBackListener() {

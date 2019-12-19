@@ -60,8 +60,6 @@ public class FileDataSource {
                 bm = Bitmap.createScaledBitmap(alltimers.get(i).getPhotobitmap(), 415, 415, true);
                 bm.compress(Bitmap.CompressFormat.PNG, 100, output);
                 AsaveTimerdatas.photobitmapbyte = output.toByteArray();
-
-
                 AllTimerDatas.add(AsaveTimerdatas);
             }
             outputStream.writeObject(AllTimerDatas);
@@ -83,9 +81,6 @@ public class FileDataSource {
             inputStream.close();
             for(int i=0;i<AllTimerDatas.size();i++) {
                 MyTimer timertmp=new MyTimer("","", Uri.EMPTY);//
-
-
-
                 timertmp.setNote(AllTimerDatas.get(i).memo);
                 timertmp.setTitle(AllTimerDatas.get(i).title);
                 timertmp.setLoop(AllTimerDatas.get(i).loop);

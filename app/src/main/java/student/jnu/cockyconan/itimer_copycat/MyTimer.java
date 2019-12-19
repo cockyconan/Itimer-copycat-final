@@ -33,7 +33,7 @@ public class MyTimer implements Parcelable {
     private String Note;    //备忘
     private int loop;
     private Uri PhotoUri;   //移动端照片存储路径,而不是直接存储图片
-
+    private android.icu.util.Calendar endCalendar; //为了方便我们记录介绍的日期而已作用不大的。
 
     //借用google为我们实现的countdowntimer，
     // mstoptimeinfuture
@@ -41,7 +41,7 @@ public class MyTimer implements Parcelable {
 
 
 
-    private android.icu.util.Calendar endCalendar; //为了方便我们记录介绍的日期而已作用不大的。
+
 
     protected MyTimer(Parcel in) {
         Title = in.readString();

@@ -455,24 +455,6 @@ public class CreateTimer extends AppCompatActivity {
                 break;
             }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             //相对时间窗口取消按钮，其实不必要。
             case R.id.create_timer_selectrelativetime_cancelbutton:
             {

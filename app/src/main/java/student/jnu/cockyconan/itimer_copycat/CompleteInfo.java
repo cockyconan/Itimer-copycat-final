@@ -162,6 +162,7 @@ public class CompleteInfo extends AppCompatActivity {
                     ArrayList<MyTimer> myTimerstmp=MainActivity.getAllTimers();
 
                     myTimerstmp.get(position).getEndCalendar().add(Calendar.DATE,loop);
+
                     CountDownTimer tobenewtimer= new CountDownTimer(5000, 1000) {
                         @Override
                         public void onTick(long millisUntilFinished) {
