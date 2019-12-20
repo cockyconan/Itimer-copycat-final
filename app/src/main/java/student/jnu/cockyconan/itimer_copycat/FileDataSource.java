@@ -42,7 +42,7 @@ public class FileDataSource {
         try {
 
 
-            ObjectOutputStream outputStream = new ObjectOutputStream(context.openFileOutput("serializable1.txt", Context.MODE_PRIVATE));//private是删除以前的，重新写,append是追加
+            ObjectOutputStream outputStream = new ObjectOutputStream(context.openFileOutput("serializablefinal.txt", Context.MODE_PRIVATE));//private是删除以前的，重新写,append是追加
             AllTimerDatas.clear();
             for(int i=0;i<alltimers.size();i++)
             {
@@ -74,7 +74,7 @@ public class FileDataSource {
         try {
 
 
-            ObjectInputStream inputStream = new ObjectInputStream(context.openFileInput("serializable1.txt"));
+            ObjectInputStream inputStream = new ObjectInputStream(context.openFileInput("serializablefinal.txt"));
            Alltimers.clear();
             AllTimerDatas = (ArrayList<saveTimerdatas>) inputStream.readObject();
 
