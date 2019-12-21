@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
            startActivity(getIntent());
             //更新页面！！！！！！
 
-           Toast.makeText(this, "create success", LENGTH_SHORT).show();
+
 
 
 
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
        else {
            //finish();
            //startActivity(getIntent());
-           Toast.makeText(this, "did not create!", LENGTH_SHORT).show();
+
        }
 
 
